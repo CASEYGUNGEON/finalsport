@@ -25,11 +25,27 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(image_index &gt; 28){
-    instance_destroy();
+            <string>if(startup == 0) {
+    image_speed = 1;
+    image_alpha = 1;
+    if(image_index = 6){
+        instance_destroy();
+    }
+    x = obj_player.x + disjointx;
+    y = obj_player.y + disjointy;
+} else {
+    startup--;
+    image_index = 0;
+    image_speed = 0;
+    image_alpha = 0;
 }
-x = obj_player.x + px;
-y = obj_player.y + py;
+
+if(image_alpha) {
+    collisionID = instance_place(x,y,genericHitbox);
+    if(collisionID != noone) {
+        collisionID.hurt = 1;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -52,7 +68,7 @@ y = obj_player.y + py;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>sprite_index = spr_punch;
+            <string>sprite_index = hurtbox_rail;
 </string>
           </argument>
         </arguments>

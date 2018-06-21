@@ -28,7 +28,8 @@
             <string>//CUSTOMIZABLE VARIABLES
 
 global.playerChar = "rail";
-disjoint = 40;
+disjoint = 0;
+attackStartup = 15;
 attackDuration = 29;
 attackCooldown = 90;
 animationSpeed = 1;
@@ -53,6 +54,7 @@ image_xscale = scale;
 image_yscale = scale;
 current = 0;
 moveDirLast = 0;
+startupCounter = 0;
 </string>
           </argument>
         </arguments>
@@ -277,13 +279,14 @@ if(!onCooldown) {
         case mb_left: {     //punch
             attack = 1;
             sprite_index = getSprite(global.playerChar,facing,"att");
-            hitx = lengthdir_x(disjoint,dir);
-            hity = lengthdir_y(disjoint,dir);
-            hurtbox = instance_create(x+hitx,y+hity,obj_fist);
+            disjointx = lengthdir_x(disjoint,dir);
+            disjointy = lengthdir_y(disjoint,dir);
+            hurtbox = instance_create(x+disjointx,y+disjointy,obj_fist);
             hurtbox.image_xscale = scale;
             hurtbox.image_yscale = scale;
-            hurtbox.px = hitx;
-            hurtbox.py = hity;
+            hurtbox.disjointx = disjointx;
+            hurtbox.disjointy = disjointy;
+            hurtbox.startup = attackStartup;
             onCooldown = 1;
             alarm[0] = attackCooldown;
             alarm[1] = attackDuration;
