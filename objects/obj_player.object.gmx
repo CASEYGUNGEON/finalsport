@@ -31,7 +31,7 @@ global.playerChar = "rail";
 disjoint = 40;
 attackDuration = 29;
 attackCooldown = 90;
-animationSpeed = .05;
+animationSpeed = 1;
 moveSpeed = 4;
 scale = .75;
 
