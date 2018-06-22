@@ -70,11 +70,21 @@
     <sprite>sprites\hurtbox_rail</sprite>
     <sprite>sprites\spr_grab</sprite>
     <sprites name="menu">
-      <sprite>sprites\spr_logo</sprite>
-      <sprite>sprites\spr_play</sprite>
-      <sprite>sprites\spr_quit</sprite>
-      <sprite>sprites\spr_local</sprite>
-      <sprite>sprites\spr_network</sprite>
+      <sprites name="main">
+        <sprite>sprites\spr_logo</sprite>
+        <sprite>sprites\spr_play</sprite>
+        <sprite>sprites\spr_join</sprite>
+        <sprite>sprites\spr_host</sprite>
+        <sprite>sprites\spr_quit</sprite>
+        <sprite>sprites\spr_network</sprite>
+        <sprite>sprites\spr_local</sprite>
+      </sprites>
+      <sprites name="charselect">
+        <sprite>sprites\spr_panel</sprite>
+        <sprite>sprites\spr_selectedchar</sprite>
+        <sprite>sprites\spr_panel2</sprite>
+        <sprite>sprites\spr_select</sprite>
+      </sprites>
     </sprites>
     <sprites name="rail">
       <sprite>sprites\rail_up</sprite>
@@ -113,8 +123,9 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\avoid.gml</script>
-    <script>scripts\getSprite.gml</script>
+    <script>scripts\scr_attack.gml</script>
+    <script>scripts\scr_avoid.gml</script>
+    <script>scripts\scr_getSprite.gml</script>
   </scripts>
   <objects name="objects">
     <objects name="player">
@@ -133,14 +144,19 @@
     <objects name="menu">
       <object>objects\obj_logo</object>
       <object>objects\obj_play</object>
+      <object>objects\obj_charpanel2</object>
+      <object>objects\obj_charselect</object>
+      <object>objects\obj_charpanel</object>
       <object>objects\obj_quit</object>
       <object>objects\obj_local</object>
-      <object>objects\obj_network</object>
+      <object>objects\obj_join</object>
+      <object>objects\obj_host</object>
     </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_game</room>
     <room>rooms\rm_title</room>
+    <room>rooms\rm_join</room>
     <room>rooms\rm_charselect</room>
     <room>rooms\rm_stageselect</room>
   </rooms>

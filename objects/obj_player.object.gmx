@@ -28,6 +28,7 @@
             <string>//CUSTOMIZABLE VARIABLES
 
 global.playerChar = "rail";
+
 disjoint = 0;
 attackStartup = 15;
 attackDuration = 29;
@@ -163,6 +164,8 @@ moveright = keyboard_check(ord('D'))
 horzmove = 0;
 vertmove = 0;
 colliding = 0;
+mask_index = rail_down;
+
 
 if(moveup &amp;&amp; movedown) {
     moveup = 0;
@@ -222,12 +225,12 @@ if(moveup &amp;&amp; moveright) {
 
 
 if(colliding) {
-    avoid(moveDirLast,obj_GenEnviroHitbox);
+    scr_avoid(moveDirLast,obj_GenEnviroHitbox);
 }           //if there's a wall, move along it instead of through it
 
 if(moveDir) {
     moveDirLast = moveDir;
-}       //this is just so the avoid() script works
+}       //this is just so the scr_avoid() script works
 
 with obj_GenEnviroHitbox {
     if (place_meeting(x,y,obj_player)) {
@@ -253,18 +256,18 @@ image_speed = animationSpeed;
 
 if(moveup + movedown + moveleft + moveright != 0) {     //change to movement sprites if moving
     if(!attack) {
-        if(sprite_index = getSprite(global.playerChar,facing)) {
+        if(sprite_index = scr_getSprite(global.playerChar,facing)) {
             image_index = 0;
         }
-        sprite_index = getSprite(global.playerChar,facing,"move")
+        sprite_index = scr_getSprite(global.playerChar,facing,"move")
     }
     if(moveVsMouse &gt; 90) {
         image_speed = -animationSpeed;
     }
 } else {
     if(!attack) {          //change to idle sprites if not moving
-        sprite_index = getSprite(global.playerChar,facing);
-        if(sprite_index = getSprite(global.playerChar,facing,"attack")) {
+        sprite_index = scr_getSprite(global.playerChar,facing);
+        if(sprite_index = scr_getSprite(global.playerChar,facing,"attack")) {
             image_index = 0;
         }
     }
@@ -278,18 +281,10 @@ if(!onCooldown) {
     switch (mouse_button) {
         case mb_left: {     //punch
             attack = 1;
-            sprite_index = getSprite(global.playerChar,facing,"att");
+            sprite_index = scr_getSprite(global.playerChar,facing,"att");
             disjointx = lengthdir_x(disjoint,dir);
             disjointy = lengthdir_y(disjoint,dir);
-            hurtbox = instance_create(x+disjointx,y+disjointy,obj_fist);
-            hurtbox.image_xscale = scale;
-            hurtbox.image_yscale = scale;
-            hurtbox.disjointx = disjointx;
-            hurtbox.disjointy = disjointy;
-            hurtbox.startup = attackStartup;
-            onCooldown = 1;
-            alarm[0] = attackCooldown;
-            alarm[1] = attackDuration;
+            hurtbox = scr_attack(global.playerChar);
             break;
         }
         case mb_right: {    //grab

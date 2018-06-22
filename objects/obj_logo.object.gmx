@@ -81,8 +81,12 @@ i+=1;
             <string>i = 0;
 move = 40;
 alarm[0]=40;
-global.localplay = 0;
-global.networkplay = 0;
+
+
+
+global.playerChar = 0;
+global.networkHost = 0;
+global.networkJoin = 0;
 </string>
           </argument>
         </arguments>
