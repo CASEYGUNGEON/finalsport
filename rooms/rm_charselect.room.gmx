@@ -52,8 +52,9 @@
   </views>
   <instances>
     <instance objName="obj_charpanel" x="224" y="640" name="inst_5F6CBFF6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_charpanel2" x="800" y="640" name="inst_636BC6F8" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_charselect" x="448" y="256" name="inst_6DE349A2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_charpanel2" x="800" y="640" name="inst_3E80CFD5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_network" x="480" y="736" name="inst_DBA85F3D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

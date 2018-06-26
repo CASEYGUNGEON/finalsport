@@ -18,10 +18,6 @@ switch (argument0) {
         hurtbox.sprite_index = hurtbox_rail;
         hurtbox.image_angle = (floor((dir + 22) / 45) + 2) * 45;
     }
-
 }
-
-
-
 
 return hurtbox;

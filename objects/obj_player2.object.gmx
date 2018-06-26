@@ -25,77 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_speed = 0
-
-ammo = 100;
-lenx = 20;
-leny = 1;
-shot_delay = 8;
-vari = 1;
-alarm[0] = 0
-hitbox = 0;
-onCooldown = 0;
-attack = 0;
-dir = 0;
-facing = "up";
-global.player1 = "rail";
-image_xscale = .75;
+            <string>image_xscale = .75;
 image_yscale = .75;
-current = 0;
-moveDirLast = 0;
 </string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="1">
-      <action>
-        <libid>1</libid>
-        <id>611</id>
-        <kind>6</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>attack</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>611</id>
-        <kind>6</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>onCooldown</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
           </argument>
         </arguments>
       </action>
@@ -117,178 +49,15 @@ moveDirLast = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-///mouse
-
-dir = point_direction(x,y,mouse_x,mouse_y);
-
-if(attack == 0) {
-    if(dir &gt; 68 &amp;&amp; dir &lt;= 112){
-        facing = "up";
-    }else if(dir &gt; 113 &amp;&amp; dir &lt;= 157){
-        facing = "upleft";
-    }else if(dir &gt; 158 &amp;&amp; dir &lt;= 202){
-        facing = "left";
-    }else if(dir &gt; 203 &amp;&amp; dir &lt;= 247){
-        facing = "downleft";
-    }else if(dir &gt; 248 &amp;&amp; dir &lt;= 292){
-        facing = "down";
-    }else if(dir &gt; 293 &amp;&amp; dir &lt;= 337){
-        facing = "downright";
-    }else if(dir &gt; 338 || dir &lt;= 21){
-        facing = "right";
-    }else if(dir &gt; 22 &amp;&amp; dir &lt;= 67){
-        facing = "upright";
-    }
-}
-
-///keyboard variables
-
-moveup = keyboard_check(ord('W'))
-movedown = keyboard_check(ord('S'))
-moveleft = keyboard_check(ord('A'))
-moveright = keyboard_check(ord('D'))
-horzmove = 0;
-vertmove = 0;
-colliding = 0;
-
-if(moveup &amp;&amp; movedown) {
-    moveup = 0;
-    movedown = 0;
-}
-
-if(moveleft &amp;&amp; moveright) {
-    moveleft = 0;
-    moveright = 0;
-}
-
-
-if(moveup) {
-    if(!place_meeting(x,y-4,obj_GenEnviroHitbox)) {
-        y -= 4
-        vertmove = 90;
-    } else {
-        colliding = 1;
-    }
-}
-
-if(movedown) {
-    if(!place_meeting(x,y+4,obj_GenEnviroHitbox)) {
-        y += 4
-        vertmove = 270;
-    } else {
-        colliding = 1;
-    }
-}
-
-if(moveleft) {
-    if(!place_meeting(x-4,y,obj_GenEnviroHitbox)) {
-        x -= 4
-        horzmove = 180;
-    } else {
-        colliding = 1;
-    }
-}
-
-if(moveright) {
-    if(!place_meeting(x+4,y,obj_GenEnviroHitbox)) {
-        x += 4
-        horzmove = 360;
-    } else {
-        colliding = 1;
-    }
-}
-
-moveDir = (vertmove + horzmove);
-
-if(vertmove &amp;&amp; horzmove){
-    moveDir /=2;
-}
-if(moveup &amp;&amp; moveright) {
-    moveDir-=180;
-}
-
-
-if(colliding) {
-    avoid(moveDirLast,obj_GenEnviroHitbox);
-}
-
-if(moveDir) {
-    moveDirLast = moveDir;
-}
-
-with obj_GenEnviroHitbox {
-    if (place_meeting(x,y,other)) {
-        other.collisionDir = point_direction(x,y,other.x,other.y);
-        with other {
-            motion_set(collisionDir,4);
-        }
-    } else {
-        other.speed = 0;
-    }
-}
-
-//animation
-
-depth = -y;
-
-
-moveVsMouse = 180 - abs(abs(moveDir - dir) - 180);
-
-
-image_speed = .05;
-
-if(moveup + movedown + moveleft + moveright != 0) {
-    if(!attack) {
-        if(sprite_index = getSprite(global.player1,facing)) {
-            image_index = 0;
-        }
-        sprite_index = getSprite(global.player1,facing,"move")
-    }
-    if(moveVsMouse &gt; 90) {
-        image_speed = -.05;
-    }
-} else {
-    if(!attack) {
-        sprite_index = getSprite(global.player1,facing);
-        if(sprite_index = getSprite(global.player1,facing,"attack")) {
-            image_index = 0;
-        }
-    }
-}
-
-
-//attacking
-
-if(!onCooldown) {
-
-    switch (mouse_button) {
-        case mb_left: {
-            attack = 1;
-            sprite_index = getSprite(global.player1,facing,"att");
-            hitx = lengthdir_x(40,dir);
-            hity = lengthdir_y(40,dir);
-            hitbox = instance_create(x+hitx,y+hity,obj_fist);
-            hitbox.image_xscale = image_xscale;
-            hitbox.image_yscale = image_yscale;
-            hitbox.px = hitx;
-            hitbox.py = hity;
-            onCooldown = 1;
-            alarm[0] = 90;
-            alarm[1] = 29;
-            break;
-        }
-    }
-}
-</string>
+            <string></string>
           </argument>
         </arguments>
       </action>
     </event>
   </events>
   <PhysicsObject>0</PhysicsObject>
-  <PhysicsObjectSensor>-1</PhysicsObjectSensor>
-  <PhysicsObjectShape>1</PhysicsObjectShape>
+  <PhysicsObjectSensor>0</PhysicsObjectSensor>
+  <PhysicsObjectShape>0</PhysicsObjectShape>
   <PhysicsObjectDensity>0.5</PhysicsObjectDensity>
   <PhysicsObjectRestitution>0.100000001490116</PhysicsObjectRestitution>
   <PhysicsObjectGroup>0</PhysicsObjectGroup>
@@ -296,6 +65,6 @@ if(!onCooldown) {
   <PhysicsObjectAngularDamping>0.100000001490116</PhysicsObjectAngularDamping>
   <PhysicsObjectFriction>0.200000002980232</PhysicsObjectFriction>
   <PhysicsObjectAwake>-1</PhysicsObjectAwake>
-  <PhysicsObjectKinematic>-1</PhysicsObjectKinematic>
+  <PhysicsObjectKinematic>0</PhysicsObjectKinematic>
   <PhysicsShapePoints/>
 </object>

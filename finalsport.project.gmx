@@ -125,6 +125,8 @@
   <scripts name="scripts">
     <script>scripts\scr_attack.gml</script>
     <script>scripts\scr_avoid.gml</script>
+    <script>scripts\scr_server_handle_connect.gml</script>
+    <script>scripts\scr_serverCreate.gml</script>
     <script>scripts\scr_getSprite.gml</script>
   </scripts>
   <objects name="objects">
@@ -133,7 +135,7 @@
       <object>objects\obj_fist</object>
       <object>objects\genericHitbox</object>
       <object>objects\obj_rail_hitbox</object>
-      <object>objects\obj_AI</object>
+      <object>objects\obj_player2</object>
     </objects>
     <objects name="environment">
       <object>objects\obj_GenEnviroHitbox</object>
@@ -148,17 +150,18 @@
       <object>objects\obj_charselect</object>
       <object>objects\obj_charpanel</object>
       <object>objects\obj_quit</object>
+      <object>objects\obj_network</object>
       <object>objects\obj_local</object>
       <object>objects\obj_join</object>
       <object>objects\obj_host</object>
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_game</room>
     <room>rooms\rm_title</room>
-    <room>rooms\rm_join</room>
     <room>rooms\rm_charselect</room>
     <room>rooms\rm_stageselect</room>
+    <room>rooms\rm_game</room>
+    <room>rooms\rm_join</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
