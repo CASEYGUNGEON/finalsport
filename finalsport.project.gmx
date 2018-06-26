@@ -14,6 +14,10 @@
     <sprites name="environment">
       <sprite>sprites\spr_box</sprite>
       <sprite>sprites\spr_box_hitbox</sprite>
+      <sprites name="pipedreams">
+        <sprite>sprites\spr_pipe_wall</sprite>
+        <sprite>sprites\spr_pipe_wall_box</sprite>
+      </sprites>
     </sprites>
     <sprites name="test">
       <sprites name="pp">
@@ -65,6 +69,7 @@
       <sprite>sprites\spr_player</sprite>
       <sprite>sprites\spr_pawn</sprite>
       <sprite>sprites\spr_attack</sprite>
+      <sprite>sprites\spr_testwall</sprite>
     </sprites>
     <sprite>sprites\spr_punch</sprite>
     <sprite>sprites\hurtbox_rail</sprite>
@@ -120,6 +125,8 @@
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
+    <background>background\background1</background>
+    <background>background\background3</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -142,6 +149,14 @@
       <object>objects\obj_enviro</object>
       <object>objects\obj_box_hitbox</object>
       <object>objects\obj_box</object>
+      <objects name="pipedreams">
+        <object>objects\obj_pipewall</object>
+        <object>objects\obj_pipeenv</object>
+        <object>objects\obj_pipeenvbox</object>
+        <object>objects\obj_pipewall_hitbox</object>
+      </objects>
+      <object>objects\obj_teleport</object>
+      <object>objects\object23</object>
     </objects>
     <objects name="menu">
       <object>objects\obj_logo</object>
@@ -157,11 +172,20 @@
     </objects>
   </objects>
   <rooms name="rooms">
+<<<<<<< HEAD
+=======
+    <room>rooms\rm_pipedreams</room>
+    <room>rooms\rm_game</room>
+>>>>>>> 350ab96fe0ea9eb1a4dfbedefd614ac737a4e2fd
     <room>rooms\rm_title</room>
     <room>rooms\rm_charselect</room>
     <room>rooms\rm_stageselect</room>
+<<<<<<< HEAD
     <room>rooms\rm_game</room>
     <room>rooms\rm_join</room>
+=======
+    <room>rooms\rm_level1</room>
+>>>>>>> 350ab96fe0ea9eb1a4dfbedefd614ac737a4e2fd
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
