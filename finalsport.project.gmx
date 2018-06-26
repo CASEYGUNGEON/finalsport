@@ -172,20 +172,14 @@
     </objects>
   </objects>
   <rooms name="rooms">
-<<<<<<< HEAD
-=======
     <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_game</room>
->>>>>>> 350ab96fe0ea9eb1a4dfbedefd614ac737a4e2fd
     <room>rooms\rm_title</room>
     <room>rooms\rm_charselect</room>
     <room>rooms\rm_stageselect</room>
-<<<<<<< HEAD
     <room>rooms\rm_game</room>
     <room>rooms\rm_join</room>
-=======
     <room>rooms\rm_level1</room>
->>>>>>> 350ab96fe0ea9eb1a4dfbedefd614ac737a4e2fd
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
