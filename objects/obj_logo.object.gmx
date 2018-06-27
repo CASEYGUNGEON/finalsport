@@ -87,6 +87,10 @@ alarm[0]=40;
 global.playerChar = 0;
 global.networkHost = 0;
 global.networkJoin = 0;
+global.player1Name = "player 1";
+global.player2Name = "player 2";
+global.selectdrawn = 0;
+global.connected = 0;
 </string>
           </argument>
         </arguments>

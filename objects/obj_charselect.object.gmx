@@ -33,6 +33,10 @@ if (mouse_check_button_released(mb_left) &amp;&amp; position_meeting(mouse_x, mo
             global.playerChar = "rail";
             break;
         }
+        default: {
+            global.playerChar = "none";
+            break;
+        }
     }
 }
 </string>
@@ -57,15 +61,19 @@ if (mouse_check_button_released(mb_left) &amp;&amp; position_meeting(mouse_x, mo
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>char = 0;
-
-select2 = instance_create(x+320,y-64,obj_charselect);
-select3 = instance_create(x-96,y+160,obj_charselect);
-select4 = instance_create(x+224,y+96,obj_charselect);
+            <string>if(!global.selectdrawn) {
+    char = 0;
     
-select2.char = 1;
-select3.char = 2;
-select4.char = 3;
+    select2 = instance_create(x+320,y-64,obj_charselect);
+    select3 = instance_create(x-96,y+160,obj_charselect);
+    select4 = instance_create(x+224,y+96,obj_charselect);
+        
+    select2.char = 1;
+    select3.char = 2;
+    select4.char = 3;
+    
+    global.selectdrawn = 1;
+}
 </string>
           </argument>
         </arguments>

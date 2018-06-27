@@ -131,6 +131,7 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_attack.gml</script>
+    <script>scripts\scr_vectorAdd.gml</script>
     <script>scripts\scr_avoid.gml</script>
     <script>scripts\scr_server_handle_connect.gml</script>
     <script>scripts\scr_serverCreate.gml</script>
@@ -151,8 +152,6 @@
       <object>objects\obj_box</object>
       <objects name="pipedreams">
         <object>objects\obj_pipewall</object>
-        <object>objects\obj_pipeenv</object>
-        <object>objects\obj_pipeenvbox</object>
         <object>objects\obj_pipewall_hitbox</object>
       </objects>
       <object>objects\obj_teleport</object>
@@ -172,12 +171,11 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_pipedreams</room>
-    <room>rooms\rm_game</room>
     <room>rooms\rm_title</room>
     <room>rooms\rm_charselect</room>
-    <room>rooms\rm_stageselect</room>
+    <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_game</room>
+    <room>rooms\rm_stageselect</room>
     <room>rooms\rm_join</room>
     <room>rooms\rm_level1</room>
   </rooms>
