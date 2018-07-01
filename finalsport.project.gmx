@@ -122,6 +122,12 @@
         <sprite>sprites\rail_upleft_att</sprite>
       </sprites>
     </sprites>
+    <sprites name="hira">
+      <sprite>sprites\hira_up</sprite>
+      <sprites name="hira move">
+        <sprite>sprites\hira_left_move</sprite>
+      </sprites>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -171,13 +177,13 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_title</room>
-    <room>rooms\rm_charselect</room>
-    <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_game</room>
+    <room>rooms\rm_title</room>
+    <room>rooms\rm_pipedreams</room>
+    <room>rooms\rm_charselect</room>
     <room>rooms\rm_stageselect</room>
-    <room>rooms\rm_join</room>
     <room>rooms\rm_level1</room>
+    <room>rooms\rm_join</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>
