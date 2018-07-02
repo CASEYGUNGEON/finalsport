@@ -124,6 +124,13 @@
     </sprites>
     <sprites name="hira">
       <sprite>sprites\hira_up</sprite>
+      <sprite>sprites\hira_upleft</sprite>
+      <sprite>sprites\hira_left</sprite>
+      <sprite>sprites\hira_downleft</sprite>
+      <sprite>sprites\hira_down</sprite>
+      <sprite>sprites\hira_downright</sprite>
+      <sprite>sprites\hira_right</sprite>
+      <sprite>sprites\hira_upright</sprite>
       <sprites name="hira move">
         <sprite>sprites\hira_left_move</sprite>
       </sprites>
