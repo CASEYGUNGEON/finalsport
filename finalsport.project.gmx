@@ -121,6 +121,16 @@
         <sprite>sprites\rail_right_att</sprite>
         <sprite>sprites\rail_upleft_att</sprite>
       </sprites>
+      <sprites name="rail backward">
+        <sprite>sprites\rail_left_backward</sprite>
+        <sprite>sprites\rail_downleft_backward</sprite>
+        <sprite>sprites\rail_down_backward</sprite>
+        <sprite>sprites\rail_downright_backward</sprite>
+        <sprite>sprites\rail_up_backward</sprite>
+        <sprite>sprites\rail_upleft_backward</sprite>
+        <sprite>sprites\rail_upright_backward</sprite>
+        <sprite>sprites\rail_right_backward</sprite>
+      </sprites>
     </sprites>
     <sprites name="hira">
       <sprite>sprites\hira_up</sprite>
@@ -133,6 +143,10 @@
       <sprite>sprites\hira_upright</sprite>
       <sprites name="hira move">
         <sprite>sprites\hira_left_move</sprite>
+        <sprite>sprites\hira_down_move</sprite>
+        <sprite>sprites\hira_downleft_move</sprite>
+        <sprite>sprites\hira_upleft_move</sprite>
+        <sprite>sprites\hira_up_move</sprite>
       </sprites>
     </sprites>
   </sprites>

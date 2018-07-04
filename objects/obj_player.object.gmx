@@ -235,7 +235,7 @@ if(abs(movex) || abs(movey)) {     //change to movement sprites if moving
         sprite_index = scr_getSprite(global.playerChar,facing,"move")
     }
     if(moveVsMouse &gt; 90 &amp;&amp; !attack) {
-        image_speed = -animationSpeed;
+        sprite_index = scr_getSprite(global.playerChar,facing,"backward")
     }
 } else {
     if(!attack) {          //change to idle sprites if not moving
