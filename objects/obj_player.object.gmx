@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>//CUSTOMIZABLE VARIABLES
 
-global.playerChar = "rail";
+global.playerChar = "hira";
 
 disjoint = 0;
 attackStartup = 15;

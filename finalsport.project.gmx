@@ -147,6 +147,9 @@
         <sprite>sprites\hira_downleft_move</sprite>
         <sprite>sprites\hira_upleft_move</sprite>
         <sprite>sprites\hira_up_move</sprite>
+        <sprite>sprites\hira_upright_move</sprite>
+        <sprite>sprites\hira_right_move</sprite>
+        <sprite>sprites\hira_downright_move</sprite>
       </sprites>
     </sprites>
   </sprites>
