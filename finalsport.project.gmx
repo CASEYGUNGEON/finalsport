@@ -71,6 +71,7 @@
       <sprite>sprites\spr_attack</sprite>
       <sprite>sprites\spr_testwall</sprite>
     </sprites>
+    <sprite>sprites\spr_knife</sprite>
     <sprite>sprites\spr_punch</sprite>
     <sprite>sprites\hurtbox_rail</sprite>
     <sprite>sprites\spr_grab</sprite>
@@ -167,7 +168,10 @@
   <objects name="objects">
     <objects name="player">
       <object>objects\obj_player</object>
+      <object>objects\obj_knife</object>
       <object>objects\obj_fist</object>
+      <object>objects\obj_genHurtbox</object>
+      <object>objects\object26</object>
       <object>objects\genericHitbox</object>
       <object>objects\obj_rail_hitbox</object>
       <object>objects\obj_player2</object>
