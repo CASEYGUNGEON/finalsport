@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>//CUSTOMIZABLE VARIABLES
 
-global.playerChar = "hira";
+global.playerChar = "rail";
 
 moveSpeed = 6;
 scale = .75;

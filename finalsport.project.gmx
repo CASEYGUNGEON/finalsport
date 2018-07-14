@@ -203,11 +203,14 @@
       <object>objects\obj_join</object>
       <object>objects\obj_host</object>
     </objects>
+    <objects name="cameratesting">
+      <object>objects\obj_camera</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_game</room>
     <room>rooms\rm_title</room>
-    <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_charselect</room>
     <room>rooms\rm_stageselect</room>
     <room>rooms\rm_level1</room>
