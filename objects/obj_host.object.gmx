@@ -58,8 +58,18 @@ image_speed=0;
 }
 
 if (mouse_check_button_pressed(mb_left) &amp;&amp; position_meeting(mouse_x, mouse_y, id)) {
-    global.networkHost = 1;
-    room_goto(rm_charselect);
+    ///START SERVER
+    
+    //Ask player for port
+    var port = real(get_string("On which port should the server listen?","6510"));
+    
+    //Setup server, on success start game, on failure end the game.
+    if (htme_serverStart(port,32)) {
+        room_goto(rm_charselect);
+    } else {
+        show_message("Could not start server! Check your network configuration!");
+        game_end();
+    }
 }
 
 if(global.play &amp;&amp; !went) {

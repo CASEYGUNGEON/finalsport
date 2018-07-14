@@ -7,8 +7,9 @@ switch (global.playerChar) {
         hurtbox.image_angle = (floor((dir + 22) / 45) + 2) * 45;
         hurtbox.image_xscale = scale;
         hurtbox.image_yscale = scale;
-        hurtbox.startup = 15;
-        onCooldown = 1;
+        hurtbox.startup = 16;
+        hurtbox.player = id;
+        onCooldown = 1; 
         alarm[0] = 60;      //attack cooldown
         alarm[1] = 29;      //attack animation duration
         return hurtbox;

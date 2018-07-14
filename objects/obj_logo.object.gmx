@@ -91,6 +91,7 @@ global.player1Name = "player 1";
 global.player2Name = "player 2";
 global.selectdrawn = 0;
 global.connected = 0;
+global.player2Char = 0;
 </string>
           </argument>
         </arguments>

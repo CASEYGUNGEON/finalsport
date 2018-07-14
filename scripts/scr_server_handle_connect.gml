@@ -1,9 +1,5 @@
 #define scr_server_handle_connect
-
 var socket_id = argument0;
-
-network = instance_create(0,0, obj_network);
-network.socket_id = socket_id;
 
 #define scr_server_handle_disconnect
 

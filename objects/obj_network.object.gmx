@@ -26,12 +26,12 @@
           <argument>
             <kind>1</kind>
             <string>if (global.networkHost) {
-    server = scr_serverCreate(27027);
+    global.server = scr_serverCreate(27027);
 }
 
 if (global.networkJoin) {
     client = network_create_socket(network_socket_tcp);
-    IP = get_string_async("enter IP of host:","0");
+    IP = get_string("enter IP of host:","0");
     network_connect(client,IP,27027);
 }
 </string>

@@ -25,8 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>x = obj_player.x + disjointx;
-y = obj_player.y + disjointy;
+            <string>x = player.x;
+y = player.y;
 
 if(startup) {
     startup--;
@@ -38,10 +38,12 @@ if(startup) {
     image_alpha = 1;
 }
 
+
 if(!startup) {
-    collisionID = instance_place(x,y,genericHitbox);
+    collisionID = instance_place(x,y,obj_gen_hitbox);
     if(collisionID != noone) {
-        collisionID.hurt = 1;
+        collisionID.hurt = (collision_line(x,y,collisionID.x,collisionID.y,obj_gen_enviro_hitbox,true,true) == noone);
+        collisionID.alarm[0] = 10;
     }
 }
 </string>

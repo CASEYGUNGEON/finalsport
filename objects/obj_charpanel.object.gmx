@@ -8,6 +8,31 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>mp_sync();
+mp_add("name","playerName",buffer_string,room_speed);
+mp_setType("name",mp_type.SMART);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -26,7 +51,7 @@
           <argument>
             <kind>1</kind>
             <string>if (mouse_check_button_pressed(mb_left) &amp;&amp; position_meeting(mouse_x, mouse_y, id)) {
-    get_string_async("enter name: ", "player 1");
+    get_string("enter name: ", "player 1");
 }
 </string>
           </argument>
@@ -50,12 +75,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.player1Name = async_load[? "result"]
-
-buffer_write(send_buffer,buffer_u8,2);
-buffer_write(send_buffer,buffer_string,global.player1Name);
-
-network_send_raw(socket_id,send_buffer,20)
+            <string>playerName = async_load[? "result"]
 </string>
           </argument>
         </arguments>
@@ -78,8 +98,14 @@ network_send_raw(socket_id,send_buffer,20)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite(spr_panel,0,x,y);
-draw_text(x-69,y-60,global.player1Name);
+            <string>if(htme_isLocal()) {
+    draw_sprite(spr_panel,0,x,y);
+    draw_text(x-69,y-60,playerName);
+} else {
+    draw_sprite(spr_panel,1,x+576,y);
+    draw_text(x+507,y-60,playerName);
+}
+
 
 switch (global.playerChar) {
     case "rail": {

@@ -53,6 +53,7 @@
   <instances>
     <instance objName="obj_pipewall" x="0" y="0" name="inst_258FFA67" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_player" x="1152" y="992" name="inst_5AEB1F4C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_player2" x="832" y="768" name="inst_C2E4444B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

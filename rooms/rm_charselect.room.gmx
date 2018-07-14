@@ -52,7 +52,6 @@
   </views>
   <instances>
     <instance objName="obj_charselect" x="416" y="256" name="inst_53736AD9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_charpanel2" x="800" y="640" name="inst_CA73B5F5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_charpanel" x="224" y="640" name="inst_954E0FF1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
