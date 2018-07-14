@@ -27,9 +27,6 @@
             <kind>1</kind>
             <string>
 
-
-
-
 //CUSTOMIZABLE VARIABLES
 
 global.playerChar = "rail";
@@ -120,28 +117,6 @@ motion_set(0,0)
           <argument>
             <kind>0</kind>
             <string>0</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="3" enumb="1">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string></string>
           </argument>
         </arguments>
       </action>
@@ -257,15 +232,18 @@ moveVsMouse = 180 - abs(abs(moveDir - dir) - 180);
 image_speed = animationSpeed;
 
 
-if(abs(movex) || abs(movey)) {     //change to movement sprites if moving
+if(abs(stepx) + abs(stepy) &gt; 0) {     //change to movement sprites if moving
     if(!attack) {
         if(sprite_index = scr_getSprite(global.playerChar,facing)) {
             image_index = 0;
         }
-        sprite_index = scr_getSprite(global.playerChar,facing,"move")
-    }
-    if(moveVsMouse &gt; 90 &amp;&amp; !attack) {
-        sprite_index = scr_getSprite(global.playerChar,facing,"backward")
+        if(moveVsMouse &lt;= 112.5) {
+            sprite_index = scr_getSprite(global.playerChar,facing,"move")
+        } else {
+            if(moveVsMouse &gt; 112.5 &amp;&amp; !attack) {
+                sprite_index = scr_getSprite(global.playerChar,facing,"backward")
+            }
+        }
     }
 } else {
     if(!attack) {          //change to idle sprites if not moving
