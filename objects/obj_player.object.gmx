@@ -29,7 +29,7 @@
 
 //CUSTOMIZABLE VARIABLES
 
-global.playerChar = "rail";
+global.playerChar = "hira";
 
 moveSpeed = 6;
 scale = .75;
