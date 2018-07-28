@@ -43,7 +43,7 @@ lenx = 20;
 leny = 1;
 shot_delay = 8;
 vari = 1;
-alarm[0] = 0
+alarm[0] = 0;
 hitbox = 0;
 onCooldown = 0;
 attack = 0;
@@ -53,6 +53,13 @@ image_xscale = scale;
 image_yscale = scale;
 current = 0;
 startupCounter = 0;
+attackType = 0;
+thrown = 0;
+stunned = 0;
+flying = 0;
+grabbed = 0;
+grab = 0;
+hurtbox = noone;
 
 movex = 0;
 movey = 0;
@@ -65,6 +72,32 @@ pressed_right = 0;
 
 motion_set(0,0)
 </string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>611</id>
+        <kind>6</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>stunned</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
           </argument>
         </arguments>
       </action>
@@ -138,11 +171,7 @@ motion_set(0,0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(keyboard_check(ord('R'))) {
-    room_restart();
-}
-
-//point towards cursor
+            <string>//point towards cursor
 
 dir = point_direction(x,y,mouse_x,mouse_y);
 
@@ -178,6 +207,12 @@ pressed_down = keyboard_check(ord('S'));
 pressed_left = keyboard_check(ord('A'));
 pressed_right = keyboard_check(ord('D'));
 
+if(!place_meeting(x,y,obj_pipewall_antibox)) {
+    depth = -y + 2161;
+} else {
+    depth = -y;
+}
+
 if(pressed_up) {
     stepy -= moveSpeed;
 }
@@ -194,10 +229,23 @@ if(pressed_right) {
     stepx += moveSpeed;
 }
 
+if(thrown) {
+    scr_thrown(throwdir);
+    thrown = 0;
+}
+
+
 movex += stepx;
 movey += stepy;
 
 moveDir = point_direction(0,0,movex,movey);
+
+if(instance_exists(hurtbox) &amp;&amp; hurtbox.caught == 1) {
+    movex = 0;
+    movey = 0;
+    stepx = 0;
+    stepy = 0;
+}
 
 if(!place_meeting(x+movex,y+movey,obj_gen_enviro_hitbox)) {
     x += movex;
@@ -231,42 +279,60 @@ moveVsMouse = 180 - abs(abs(moveDir - dir) - 180);
 
 image_speed = animationSpeed;
 
-
-if(abs(stepx) + abs(stepy) &gt; 0) {     //change to movement sprites if moving
-    if(!attack) {
-        if(sprite_index = scr_getSprite(global.playerChar,facing)) {
-            image_index = 0;
+if(grab) {
+    sprite_index = scr_getSprite(global.playerChar,facing,"grab");
+} else {
+    if(abs(stepx) + abs(stepy) &gt; 0) {     //change to movement sprites if moving
+        if(!attack) {
+            if(sprite_index = scr_getSprite(global.playerChar,facing)) {
+                image_index = 0;
+            }
+            if(moveVsMouse &lt;= 112.5) {
+                sprite_index = scr_getSprite(global.playerChar,facing,"move")
+            } else {
+                if(moveVsMouse &gt; 112.5 &amp;&amp; !attack) {
+                    sprite_index = scr_getSprite(global.playerChar,facing,"backward")
+                }
+            }
         }
-        if(moveVsMouse &lt;= 112.5) {
-            sprite_index = scr_getSprite(global.playerChar,facing,"move")
-        } else {
-            if(moveVsMouse &gt; 112.5 &amp;&amp; !attack) {
-                sprite_index = scr_getSprite(global.playerChar,facing,"backward")
+    } else {
+        if(!attack) {          //change to idle sprites if not moving
+            sprite_index = scr_getSprite(global.playerChar,facing);
+            if(sprite_index = scr_getSprite(global.playerChar,facing,"attack")) {
+                image_index = 0;
             }
         }
     }
-} else {
-    if(!attack) {          //change to idle sprites if not moving
-        sprite_index = scr_getSprite(global.playerChar,facing);
-        if(sprite_index = scr_getSprite(global.playerChar,facing,"attack")) {
-            image_index = 0;
-        }
-    }
+}
+if(attackType == "space" &amp;&amp; !keyboard_check(ord(' '))) {
+    blockRelease = 1;
+}   else {
+    blockRelease = 0;
 }
 
+attackType = mouse_button;
 
+if((attackType == mb_none) &amp;&amp; keyboard_check(ord(' '))) {
+    attackType = "space";
+}
 //attacking
 
 if(!onCooldown) {
 
-    switch (mouse_button) {
-        case mb_left: {     //punch
+    switch (attackType) {
+        case mb_left: {     //main attack
             attack = 1;                 
             sprite_index = scr_getSprite(global.playerChar,facing,"att");
             hurtbox = scr_attack();
             break;
         }
         case mb_right: {    //grab
+        grab = 1;
+        sprite_index = scr_getSprite(global.playerChar,facing,"grab");
+        hurtbox = scr_grab();
+        break;
+        }
+        case "space": {   //block
         
         break;
         }
@@ -274,10 +340,13 @@ if(!onCooldown) {
 }
 
 if(global.playerChar == "hira") {
-    with obj_knife {
-        if(place_meeting(x,y,obj_player) &amp;&amp; (hit || collided)) {
-            obj_player.ammo += 1;
-            instance_destroy();
+
+    collisionID = instance_place(x,y,obj_knife);
+    
+    if(collisionID != noone) {
+        if(collisionID.hit || collisionID.collided) {
+            ammo += 1;
+            instance_destroy(collisionID);
         }
     }
 }

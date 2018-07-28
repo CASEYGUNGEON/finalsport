@@ -44,18 +44,14 @@
   <NewExtensions>
     <extension index="0">extensions\Multiplayer - GMnet ENGINE</extension>
   </NewExtensions>
-  <sounds name="sound">
-    <sound>sound\snd_bat</sound>
-    <sound>sound\snd_whoosh</sound>
-    <sound>sound\snd_oof</sound>
-    <sound>sound\snd_choose</sound>
-  </sounds>
+  <sounds name="sound"/>
   <sprites name="sprites">
     <sprites name="environment">
       <sprite>sprites\spr_box</sprite>
       <sprite>sprites\spr_box_hitbox</sprite>
       <sprites name="pipedreams">
         <sprite>sprites\spr_pipe_wall</sprite>
+        <sprite>sprites\spr_pipe_antibox</sprite>
         <sprite>sprites\spr_pipe_wall_box</sprite>
       </sprites>
     </sprites>
@@ -112,6 +108,7 @@
       <sprite>sprites\spr_testwall</sprite>
     </sprites>
     <sprite>sprites\spr_knife</sprite>
+    <sprite>sprites\spr_stars</sprite>
     <sprite>sprites\spr_punch</sprite>
     <sprite>sprites\hurtbox_rail</sprite>
     <sprite>sprites\spr_grab</sprite>
@@ -128,9 +125,10 @@
       <sprites name="charselect">
         <sprite>sprites\spr_panel</sprite>
         <sprite>sprites\spr_selectedchar</sprite>
-        <sprite>sprites\spr_panel2</sprite>
         <sprite>sprites\spr_select</sprite>
+        <sprite>sprites\spr_rock</sprite>
       </sprites>
+      <sprite>sprites\spr_stageselect</sprite>
     </sprites>
     <sprites name="rail">
       <sprite>sprites\rail_up</sprite>
@@ -142,6 +140,16 @@
       <sprite>sprites\rail_right</sprite>
       <sprite>sprites\rail_upright</sprite>
       <sprite>sprites\rail_down_hitbox</sprite>
+      <sprites name="rail grab">
+        <sprite>sprites\rail_up_grab</sprite>
+        <sprite>sprites\rail_upleft_grab</sprite>
+        <sprite>sprites\rail_left_grab</sprite>
+        <sprite>sprites\rail_downleft_grab</sprite>
+        <sprite>sprites\rail_down_grab</sprite>
+        <sprite>sprites\rail_downright_grab</sprite>
+        <sprite>sprites\rail_right_grab</sprite>
+        <sprite>sprites\rail_upright_grab</sprite>
+      </sprites>
       <sprites name="rail move">
         <sprite>sprites\rail_up_move</sprite>
         <sprite>sprites\rail_upleft_move</sprite>
@@ -208,6 +216,8 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_attack.gml</script>
+    <script>scripts\scr_grab.gml</script>
+    <script>scripts\scr_thrown.gml</script>
     <script>scripts\scr_vectorAdd.gml</script>
     <script>scripts\scr_avoid.gml</script>
     <script>scripts\scr_getSprite.gml</script>
@@ -411,40 +421,46 @@
   <objects name="objects">
     <objects name="player">
       <object>objects\obj_player</object>
-      <object>objects\obj_knife</object>
-      <object>objects\obj_fist</object>
-      <object>objects\obj_genHurtbox</object>
-      <object>objects\object26</object>
+      <objects name="hurtboxes">
+        <object>objects\obj_genHurtbox</object>
+        <object>objects\obj_fist</object>
+        <object>objects\obj_grab</object>
+        <object>objects\obj_knife</object>
+      </objects>
       <object>objects\obj_gen_hitbox</object>
       <object>objects\obj_rail_hitbox</object>
       <object>objects\obj_player2</object>
     </objects>
     <objects name="environment">
-      <object>objects\obj_gen_enviro_hitbox</object>
-      <object>objects\obj_enviro</object>
-      <object>objects\obj_box_hitbox</object>
-      <object>objects\obj_box</object>
+      <objects name="generic">
+        <object>objects\obj_enviro</object>
+        <object>objects\obj_gen_enviro_hitbox</object>
+        <object>objects\obj_box</object>
+        <object>objects\obj_box_hitbox</object>
+      </objects>
       <objects name="pipedreams">
+        <object>objects\obj_pipewall_antibox</object>
         <object>objects\obj_pipewall</object>
         <object>objects\obj_pipewall_hitbox</object>
       </objects>
-      <object>objects\obj_teleport</object>
-      <object>objects\object23</object>
     </objects>
     <objects name="menu">
-      <object>objects\obj_logo</object>
-      <object>objects\obj_play</object>
-      <object>objects\obj_charpanel2</object>
-      <object>objects\obj_charselect</object>
-      <object>objects\obj_charpanel</object>
-      <object>objects\obj_quit</object>
-      <object>objects\obj_local</object>
-      <object>objects\obj_join</object>
-      <object>objects\obj_host</object>
+      <objects name="main">
+        <object>objects\obj_logo</object>
+        <object>objects\obj_play</object>
+        <object>objects\obj_quit</object>
+        <object>objects\obj_host</object>
+        <object>objects\obj_join</object>
+      </objects>
+      <objects name="charselect">
+        <object>objects\obj_charselect</object>
+        <object>objects\obj_charpanel</object>
+        <object>objects\obj_rock</object>
+        <object>objects\obj_stageselect</object>
+      </objects>
     </objects>
     <objects name="htme_demo">
       <objects name="menu">
-        <object>objects\htme_obj_waitforclient</object>
         <object>objects\htme_obj_menu</object>
       </objects>
       <objects name="game">
@@ -453,13 +469,14 @@
         <object>objects\htme_obj_time</object>
         <object>objects\htme_obj_playerlist</object>
         <object>objects\htme_obj_door</object>
-        <object>objects\htme_obj_network_control</object>
         <object>objects\htme_obj_chat</object>
       </objects>
       <object>objects\htme_obj_lanlobbydemo</object>
     </objects>
     <objects name="htme">
       <object>objects\obj_htme</object>
+      <object>objects\htme_obj_network_control</object>
+      <object>objects\htme_obj_waitforclient</object>
     </objects>
     <objects name="udphp_demo">
       <object>objects\obj_udphphtme_lobby</object>
@@ -469,9 +486,9 @@
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_title</room>
     <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_game</room>
-    <room>rooms\rm_title</room>
     <room>rooms\rm_charselect</room>
     <room>rooms\rm_stageselect</room>
     <room>rooms\rm_level1</room>

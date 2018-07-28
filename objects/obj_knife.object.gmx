@@ -56,7 +56,7 @@ spin = irandom(5) + 2;
     y += movey;
 }
 
-collisionID = instance_place(x,y,genericHitbox)
+collisionID = instance_place(x,y,obj_gen_hitbox)
 
 if(collisionID != noone &amp;&amp; !collided &amp;&amp; !hit) {
     hit = 1;
@@ -64,7 +64,7 @@ if(collisionID != noone &amp;&amp; !collided &amp;&amp; !hit) {
     collisionID.alarm[0] = 10;
 }
 
-while(place_meeting(x,y,obj_GenEnviroHitbox) &amp;&amp; !hit &amp;&amp; !collided) {
+while(place_meeting(x,y,obj_gen_enviro_hitbox) &amp;&amp; !hit &amp;&amp; !collided) {
     collided = 1;
     x -= movex / 8;
     y -= movey / 8;

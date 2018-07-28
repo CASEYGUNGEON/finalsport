@@ -90,6 +90,7 @@ if (mouse_check_button_released(mb_left) &amp;&amp; position_meeting(mouse_x, mo
     
     //Setup client, on success go to waiting room, otherwise end game
     if (htme_clientStart(ip, port)) {
+        global.networkJoin = 1;
         room_goto(htme_rom_connecting); //NOTE THAT WE ARE GOING TO ANOTHER ROOM HERE THAN THE SERVER ABOVE
     } else {
         show_message("Could not start client! Check your network configuration!");

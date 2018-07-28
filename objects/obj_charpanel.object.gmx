@@ -26,14 +26,38 @@
           <argument>
             <kind>1</kind>
             <string>mp_sync();
-mp_add("name","playerName",buffer_string,room_speed);
-mp_setType("name",mp_type.SMART);
+mp_add("playerName","playerName",buffer_string,1);
+mp_setType("playerName",mp_type.SMART);
+mp_add("playerChar","playerChar",buffer_string,1);
+mp_setType("playerChar",mp_type.SMART);
+mp_addPosition("Pos",10*room_speed);
+mp_setType("Pos",mp_type.SMART);
+
+
+
+self.msg = 0;
+
+if(htme_isLocal()){
+    self.client = global.networkJoin;
+    self.playerChar = global.playerChar;
+    self.playerName = global.playerName;
+    if(!htme_isServer()) {
+        x += 438
+    }
+}   else {
+    self.client = !global.networkJoin;
+    self.playerChar = global.player2Char;
+    self.playerName = global.player2Name;
+}
+
+image_index = self.client;
+image_speed = 0;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="3" enumb="2">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -50,9 +74,40 @@ mp_setType("name",mp_type.SMART);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (mouse_check_button_pressed(mb_left) &amp;&amp; position_meeting(mouse_x, mouse_y, id)) {
-    get_string("enter name: ", "player 1");
+            <string>if(!htme_isLocal()) {
+    self.playerName = mp_map_syncOut("playerName",self.playerName);
+    self.playerChar = mp_map_syncOut("playerChar",self.playerChar);
+    global.player2Name = self.playerName;
+    global.player2Char = self.playerChar;
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (htme_isLocal() &amp;&amp; mouse_check_button_pressed(mb_left) &amp;&amp; position_meeting(mouse_x, mouse_y, id)) {
+    self.msg = get_string_async("enter name:", "player");
+}
+
+mp_map_syncIn("playerChar",self.playerChar);
+mp_map_syncIn("playerName",self.playerName);
 </string>
           </argument>
         </arguments>
@@ -75,7 +130,16 @@ mp_setType("name",mp_type.SMART);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>playerName = async_load[? "result"]
+            <string>if(htme_isLocal()) {
+    var i_d = async_load[? "id"];
+    if (i_d == msg) {
+        if (async_load[? "status"]) {
+           if (async_load[? "result"] != "") {
+              self.playerName = async_load[? "result"];
+           }
+        }
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -99,15 +163,14 @@ mp_setType("name",mp_type.SMART);
           <argument>
             <kind>1</kind>
             <string>if(htme_isLocal()) {
-    draw_sprite(spr_panel,0,x,y);
-    draw_text(x-69,y-60,playerName);
-} else {
-    draw_sprite(spr_panel,1,x+576,y);
-    draw_text(x+507,y-60,playerName);
+    self.playerChar = global.playerChar;
 }
 
+draw_self();
 
-switch (global.playerChar) {
+draw_text(x+69,y-60,self.playerName);
+
+switch (self.playerChar) {
     case "rail": {
         draw_sprite(spr_selectedchar,1,x,y);
         break;

@@ -26,7 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>instance_create(x,y,obj_pipewall_hitbox);
-depth = -y;
+instance_create(x,y,obj_pipewall_antibox);
+depth = 0;
 </string>
           </argument>
         </arguments>

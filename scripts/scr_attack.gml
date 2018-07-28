@@ -20,11 +20,13 @@ switch (global.playerChar) {
         
     case "hira": {
         if(ammo > 0) {
-            hurtbox = instance_create(x,y,obj_knife);
-            hurtbox.movex = lengthdir_x(8,dir);
-            hurtbox.movey = lengthdir_y(8,dir);
-            hurtbox.image_xscale = scale;
-            hurtbox.image_yscale = scale;
+            knifemovex = lengthdir_x(8,dir);
+            knifemovey = lengthdir_y(8,dir);
+            hurtbox = instance_create(x+(knifemovex * 5),y+(knifemovey * 5),obj_knife);
+            hurtbox.movex = knifemovex;
+            hurtbox.movey = knifemovey;
+            hurtbox.image_xscale = scale * .75;
+            hurtbox.image_yscale = scale * .75;
             hurtbox.image_angle = dir;
             hurtbox.startup = 5;
             onCooldown = 1;

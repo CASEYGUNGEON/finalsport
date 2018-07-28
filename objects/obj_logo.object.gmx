@@ -8,32 +8,6 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>211</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_sound</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>6</kind>
-            <sound>snd_bat</sound>
-          </argument>
-          <argument>
-            <kind>3</kind>
-            <string>0</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -80,18 +54,16 @@ i+=1;
             <kind>1</kind>
             <string>i = 0;
 move = 40;
-alarm[0]=40;
 
 
 
-global.playerChar = 0;
-global.networkHost = 0;
+global.playerChar = "none";
 global.networkJoin = 0;
-global.player1Name = "player 1";
-global.player2Name = "player 2";
+global.playerName = "player";
 global.selectdrawn = 0;
 global.connected = 0;
-global.player2Char = 0;
+global.player2Char = "none";
+global.player2Name = "player";
 </string>
           </argument>
         </arguments>
