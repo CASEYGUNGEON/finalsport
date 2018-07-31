@@ -108,9 +108,12 @@
       <sprite>sprites\spr_testwall</sprite>
     </sprites>
     <sprite>sprites\spr_knife</sprite>
+    <sprite>sprites\spr_spawn1</sprite>
+    <sprite>sprites\spr_spawn2</sprite>
     <sprite>sprites\spr_stars</sprite>
     <sprite>sprites\spr_punch</sprite>
     <sprite>sprites\hurtbox_rail</sprite>
+    <sprite>sprites\spr_charhud</sprite>
     <sprite>sprites\spr_grab</sprite>
     <sprites name="menu">
       <sprites name="main">
@@ -430,6 +433,10 @@
   <objects name="objects">
     <objects name="player">
       <object>objects\obj_player</object>
+      <object>objects\obj_spawn1</object>
+      <object>objects\obj_charhud</object>
+      <object>objects\obj_spawn2</object>
+      <object>objects\obj_player_offline</object>
       <objects name="hurtboxes">
         <object>objects\obj_genHurtbox</object>
         <object>objects\obj_fist</object>
@@ -465,8 +472,8 @@
         <object>objects\obj_charselect</object>
         <object>objects\obj_charpanel</object>
         <object>objects\obj_rock</object>
-        <object>objects\obj_stageselect</object>
       </objects>
+      <object>objects\obj_stageselect</object>
     </objects>
     <objects name="htme_demo">
       <objects name="menu">
@@ -495,9 +502,9 @@
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_title</room>
     <room>rooms\rm_game</room>
     <room>rooms\rm_pipedreams</room>
-    <room>rooms\rm_title</room>
     <room>rooms\rm_charselect</room>
     <room>rooms\rm_stageselect</room>
     <room>rooms\rm_level1</room>

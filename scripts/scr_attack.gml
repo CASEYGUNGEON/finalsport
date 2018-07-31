@@ -1,6 +1,6 @@
 var hurtbox;
 
-switch (global.playerChar) {
+switch (self.playerChar) {
     case "rail": {
         hurtbox = instance_create(x,y,obj_fist);
         hurtbox.sprite_index = hurtbox_rail;

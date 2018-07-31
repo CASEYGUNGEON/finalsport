@@ -52,10 +52,12 @@
   </views>
   <instances>
     <instance objName="obj_pipewall" x="0" y="0" name="inst_258FFA67" locked="-1" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_player" x="1152" y="992" name="inst_5AEB1F4C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_player2" x="832" y="768" name="inst_C2E4444B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_camera" x="1120" y="1120" name="inst_22FF4817" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_htme" x="1184" y="1120" name="inst_49193706" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spawn1" x="1152" y="608" name="inst_CD5D95C9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_spawn2" x="1120" y="1536" name="inst_BA060CEC" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_player" x="1152" y="1024" name="inst_F09EDF1A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="htme_obj_network_control" x="1184" y="1120" name="inst_4DAEBC94" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_charhud" x="864" y="2368" name="inst_17FB2B53" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

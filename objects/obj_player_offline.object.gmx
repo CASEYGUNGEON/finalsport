@@ -25,21 +25,11 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>mp_sync();
-mp_addPosition("Pos",room_speed);
-mp_setType("Pos",mp_type.SMART);
-mp_addBuiltinBasic("basicDrawing",15*room_speed);
-mp_setType("basicDrawing",mp_type.SMART);
-mp_tolerance("Pos",20);
-mp_add("dir","dir",buffer_u16,1);
-mp_setType("dir",mp_type.FAST);
-mp_add("controls","pressed_up,pressed_down,pressed_left,pressed_right",buffer_bool,1);
-mp_setType("controls",mp_type.FAST);
-mp_add("attackType","attackType",buffer_s8,1);
-mp_setType("attackType",mp_type.FAST);
+            <string>
 
 //CUSTOMIZABLE VARIABLES
 
+global.playerChar = "rail";
 
 moveSpeed = 6;
 scale = .75;
@@ -47,20 +37,6 @@ animationSpeed = 1;
 ammo = 3;
 
 //NON-CUSTOMIZABLE VARIABLES
-
-if(!global.networkJoin) {
-    self.playerChar = global.playerChar;
-} else {
-    self.playerChar = global.player2Char;
-}
-
-if(!global.networkJoin) {
-    x = obj_spawn1.x;
-    y = obj_spawn1.y;
-} else {
-    x = obj_spawn2.x;
-    y = obj_spawn2.y;
-}
 
 image_speed = 0;
 lenx = 20;
@@ -178,76 +154,6 @@ motion_set(0,0)
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="2">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>self.pressed_up = mp_map_syncOut("pressed_up",self.pressed_up);
-self.pressed_down = mp_map_syncOut("pressed_down",self.pressed_down);
-self.pressed_left = mp_map_syncOut("pressed_left",self.pressed_left);
-self.pressed_right = mp_map_syncOut("pressed_right",self.pressed_right);
-self.attackType = mp_map_syncOut("attackType",self.attackType);
-self.dir = mp_map_syncOut("dir",self.dir);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="3" enumb="1">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>if(htme_isLocal()) {
-    self.pressed_up = keyboard_check(ord('W'));
-    self.pressed_down = keyboard_check(ord('S'));
-    self.pressed_left = keyboard_check(ord('A'));
-    self.pressed_right = keyboard_check(ord('D'));
-    
-    self.attackType = mouse_button;
-    if((self.attackType == mb_none) &amp;&amp; keyboard_check(ord(' '))) {
-        self.attackType = 8;
-    }
-    
-    self.dir = point_direction(x,y,mouse_x,mouse_y);
-}
-
-mp_map_syncIn("pressed_up",self.pressed_up);
-mp_map_syncIn("pressed_down",self.pressed_down);
-mp_map_syncIn("pressed_left",self.pressed_left);
-mp_map_syncIn("pressed_right",self.pressed_right);
-mp_map_syncIn("attackType",self.attackType);
-mp_map_syncIn("dir",self.dir);
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -267,22 +173,24 @@ mp_map_syncIn("dir",self.dir);
             <kind>1</kind>
             <string>//point towards cursor
 
+dir = point_direction(x,y,mouse_x,mouse_y);
+
 if(attack == 0) {
-    if(self.dir &gt; 68 &amp;&amp; self.dir &lt;= 112){
+    if(dir &gt; 68 &amp;&amp; dir &lt;= 112){
         facing = "up";
-    }else if(self.dir &gt; 113 &amp;&amp; self.dir &lt;= 157){
+    }else if(dir &gt; 113 &amp;&amp; dir &lt;= 157){
         facing = "upleft";
-    }else if(self.dir &gt; 158 &amp;&amp; self.dir &lt;= 202){
+    }else if(dir &gt; 158 &amp;&amp; dir &lt;= 202){
         facing = "left";
-    }else if(self.dir &gt; 203 &amp;&amp; self.dir &lt;= 247){
+    }else if(dir &gt; 203 &amp;&amp; dir &lt;= 247){
         facing = "downleft";
-    }else if(self.dir &gt; 248 &amp;&amp; self.dir &lt;= 292){
+    }else if(dir &gt; 248 &amp;&amp; dir &lt;= 292){
         facing = "down";
-    }else if(self.dir &gt; 293 &amp;&amp; self.dir &lt;= 337){
+    }else if(dir &gt; 293 &amp;&amp; dir &lt;= 337){
         facing = "downright";
-    }else if(self.dir &gt; 338 || self.dir &lt;= 21){
+    }else if(dir &gt; 338 || dir &lt;= 21){
         facing = "right";
-    }else if(self.dir &gt; 22 &amp;&amp; self.dir &lt;= 67){
+    }else if(dir &gt; 22 &amp;&amp; dir &lt;= 67){
         facing = "upright";
     }
 }
@@ -291,10 +199,13 @@ if(attack == 0) {
 
 
 colliding = 0;
-mask_index = asset_get_index(self.playerChar + "_down");
+mask_index = asset_get_index(global.playerChar + "_down");
 stepx = 0;
 stepy = 0;
-
+pressed_up = keyboard_check(ord('W'));
+pressed_down = keyboard_check(ord('S'));
+pressed_left = keyboard_check(ord('A'));
+pressed_right = keyboard_check(ord('D'));
 
 if(!place_meeting(x,y,obj_pipewall_antibox)) {
     depth = -y + 2161;
@@ -302,19 +213,19 @@ if(!place_meeting(x,y,obj_pipewall_antibox)) {
     depth = -y;
 }
 
-if(self.pressed_up) {
+if(pressed_up) {
     stepy -= moveSpeed;
 }
 
-if(self.pressed_down) {
+if(pressed_down) {
     stepy += moveSpeed;
 }
 
-if(self.pressed_left) {
+if(pressed_left) {
     stepx -= moveSpeed;
 }
 
-if(self.pressed_right) {
+if(pressed_right) {
     stepx += moveSpeed;
 }
 
@@ -348,13 +259,13 @@ movex -= stepx;
 movey -= stepy;
 
 with obj_gen_enviro_hitbox {
-    if (place_meeting(x,y,obj_player)) {
-        obj_player.collisionDir = point_direction(x,y,obj_player.x,obj_player.y);
+    if (place_meeting(x,y,obj_player_offline)) {
+        obj_player_offline.collisionDir = point_direction(x,y,obj_player_offline.x,obj_player_offline.y);
         with other {
-            motion_set(collisionDir,obj_player.moveSpeed);
+            motion_set(collisionDir,obj_player_offline.moveSpeed);
         }
     } else {
-        obj_player.speed = 0;
+        obj_player_offline.speed = 0;
     }       //prevents from getting stuck inside environment
 }
 
@@ -369,66 +280,70 @@ moveVsMouse = 180 - abs(abs(moveDir - dir) - 180);
 image_speed = animationSpeed;
 
 if(grab) {
-    sprite_index = scr_getSprite(self.playerChar,facing,"grab");
+    sprite_index = scr_getSprite(global.playerChar,facing,"grab");
 } else {
     if(abs(stepx) + abs(stepy) &gt; 0) {     //change to movement sprites if moving
         if(!attack) {
-            if(sprite_index = scr_getSprite(self.playerChar,facing)) {
+            if(sprite_index = scr_getSprite(global.playerChar,facing)) {
                 image_index = 0;
             }
             if(moveVsMouse &lt;= 112.5) {
-                sprite_index = scr_getSprite(self.playerChar,facing,"move")
+                sprite_index = scr_getSprite(global.playerChar,facing,"move")
             } else {
                 if(moveVsMouse &gt; 112.5 &amp;&amp; !attack) {
-                    sprite_index = scr_getSprite(self.playerChar,facing,"backward")
+                    sprite_index = scr_getSprite(global.playerChar,facing,"backward")
                 }
             }
         }
     } else {
         if(!attack) {          //change to idle sprites if not moving
-            sprite_index = scr_getSprite(self.playerChar,facing);
-            if(sprite_index = scr_getSprite(self.playerChar,facing,"attack")) {
+            sprite_index = scr_getSprite(global.playerChar,facing);
+            if(sprite_index = scr_getSprite(global.playerChar,facing,"attack")) {
                 image_index = 0;
             }
         }
     }
 }
-if(self.attackType == 8 &amp;&amp; !keyboard_check(ord(' '))) {
+if(attackType == "space" &amp;&amp; !keyboard_check(ord(' '))) {
     blockRelease = 1;
 }   else {
     blockRelease = 0;
 }
 
+attackType = mouse_button;
 
+if((attackType == mb_none) &amp;&amp; keyboard_check(ord(' '))) {
+    attackType = "space";
+}
 //attacking
 
 if(!onCooldown) {
 
-    switch (self.attackType) {
+    switch (attackType) {
         case mb_left: {     //main attack
             attack = 1;                 
-            sprite_index = scr_getSprite(self.playerChar,facing,"att");
+            sprite_index = scr_getSprite(global.playerChar,facing,"att");
             hurtbox = scr_attack();
             break;
         }
         case mb_right: {    //grab
-            grab = 1;
-            sprite_index = scr_getSprite(self.playerChar,facing,"grab");
-            hurtbox = scr_grab();
-            break;
+        grab = 1;
+        sprite_index = scr_getSprite(global.playerChar,facing,"grab");
+        hurtbox = scr_grab();
+        break;
         }
-        case 8: {   //block
+        case "space": {   //block
         
         break;
         }
     }
 }
 
-if(self.playerChar == "hira") {
+if(global.playerChar == "hira") {
 
     collisionID = instance_place(x,y,obj_knife);
     
-    if(collisionID != noone &amp;&amp; ammo &lt; 3) {
+    if(collisionID != noone) {
         if(collisionID.hit || collisionID.collided) {
             ammo += 1;
             instance_destroy(collisionID);
