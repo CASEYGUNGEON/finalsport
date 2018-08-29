@@ -59,7 +59,7 @@ caught = 0;
 
 collisionID = instance_place(x,y,obj_gen_hitbox)
 
-if(collisionID != noone &amp;&amp; !collided &amp;&amp; !hit) {
+if(collisionID != noone &amp;&amp; collisionID != ignore &amp;&amp; !collided &amp;&amp; !hit) {
     hit = 1;
     collisionID.hurt = 1;
     collisionID.alarm[0] = 10;

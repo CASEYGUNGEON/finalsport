@@ -26,40 +26,31 @@
           <argument>
             <kind>1</kind>
             <string>image_speed = 0;
+gameEnding = 0;
 
 if(!global.hudcreated) {
     global.hudcreated = 1;
+    
+    htme_globalSet("hostLives",3,buffer_u8);
+    htme_globalSet("clientLives",3,buffer_u8);
+    
     player = 0;
     image_index = 0;
     color = c_blue;
+    image_index = scr_char_number(global.playerChar);
     charhud2 = instance_create(x,y,obj_charhud);
-    charhud2.image_index = 0;
     charhud2.player = 1;
     charhud2.color = c_red;
+
+    if(!global.networkJoin) {
+        image_index = scr_char_number(global.playerChar);
+        charhud2.image_index = scr_char_number(global.player2Char);
+    } else {
+        image_index = scr_char_number(global.player2Char);
+        charhud2.image_index = scr_char_number(global.playerChar);
+    }
 }
 </string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="3" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string></string>
           </argument>
         </arguments>
       </action>
@@ -81,7 +72,40 @@ if(!global.hudcreated) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(sprite_index,image_index,400+(player*400),760,1,1,0,color,.75);
+            <string>gui_x = 300+(player*400);
+gui_y = 690;
+
+draw_sprite_ext(sprite_index,image_index,gui_x,gui_y,1,1,0,color,.75);
+
+if(!player) { //if left HUD element
+    self.lifecount = htme_globalGet("hostLives");
+    if(!global.networkJoin) { //if host
+        self.playerName = global.playerName;
+    } else {
+        self.playerName = global.player2Name;
+    }
+} else { //if right element
+    self.lifecount = htme_globalGet("clientLives");
+    if(global.networkJoin) { //if not host
+        self.playerName = global.playerName;
+    } else {
+        self.playerName = global.player2Name;
+    }
+}
+
+if(!self.lifecount &amp;&amp; !gameEnding) {
+    obj_ender.alarm[0] = 1;
+    gameEnding = 1;
+}
+
+lifex = 0;
+var i;
+for(i=0;i&lt;self.lifecount;i++) {
+    draw_sprite(spr_lives,0,gui_x+lifex,gui_y);
+    lifex += 18;
+}
+
+draw_text(gui_x-36,gui_y-30,self.playerName);
 </string>
           </argument>
         </arguments>

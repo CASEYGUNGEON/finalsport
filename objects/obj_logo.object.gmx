@@ -25,10 +25,10 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(i&lt;40) {
-x+=move;
-move-=1;
-i+=1;
+            <string>move_towards_point(512,y,(512-x)/8);
+
+if(mouse_check_button_released(mb_left) &amp;&amp; x!=512) {
+    x = 512;
 }
 </string>
           </argument>
@@ -52,12 +52,7 @@ i+=1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>i = 0;
-move = 40;
-
-
-
-global.playerChar = "none";
+            <string>global.playerChar = "none";
 global.networkJoin = 0;
 global.playerName = "player";
 global.selectdrawn = 0;

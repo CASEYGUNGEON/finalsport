@@ -26,34 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>time = 70;
-i = 30;
-move = 45;
-movingOut = 0;
+stop = 512;
 image_speed = 0;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="1">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>i = 30;
-move = 45;
 </string>
           </argument>
         </arguments>
@@ -76,14 +50,12 @@ move = 45;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (time &gt; 0) {
+            <string>move = (x-stop)/8;
+
+if (time &gt; 0) {
     time -=1;
 } else {
-    if (i&gt;0) {
-        x-=move;
-        move-=1.5;
-        i-=1;
-    }
+    move_towards_point(stop,y,move);
 }
 
 if(position_meeting(mouse_x, mouse_y, id)) {
@@ -92,13 +64,19 @@ if(position_meeting(mouse_x, mouse_y, id)) {
     image_index = 0;
 }
 
-if (mouse_check_button_released(mb_left) &amp;&amp; position_meeting(mouse_x, mouse_y, id)) {
-   game_end();
+if (mouse_check_button_released(mb_left)) {
+   if(position_meeting(mouse_x, mouse_y, id)) {
+        game_end();
+   } else {
+        if(x &gt; 512) {
+            time = 0;
+            x = 512;
+        }
+   }
 }
 
-if(global.play and !movingOut) {
-    alarm[1] = 30;
-    movingOut = 1;
+if(global.play) {
+    stop = -150
 }
 </string>
           </argument>

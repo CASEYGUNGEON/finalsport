@@ -48,8 +48,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>x = player.x + lengthdir_x(80,player.dir);
-y = player.y + lengthdir_y(80,player.dir);
+            <string>x = player.x + lengthdir_x(disjoint,player.dir);
+y = player.y + lengthdir_y(disjoint,player.dir);
 
 if(startup) {
     startup--;

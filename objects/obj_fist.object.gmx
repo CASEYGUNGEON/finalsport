@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>caught = 0;
+damaged = 0;
 </string>
           </argument>
         </arguments>
@@ -62,11 +63,13 @@ if(startup) {
 }
 
 
-if(!startup) {
+if(!startup &amp;&amp; !damaged) {
     collisionID = instance_place(x,y,obj_gen_hitbox);
-    if(collisionID != noone) {
-        collisionID.hurt = (collision_line(x,y,collisionID.x,collisionID.y,obj_gen_enviro_hitbox,true,true) == noone);
-        collisionID.alarm[0] = 10;
+    if(collisionID != noone &amp;&amp; collisionID != ignore) {
+        with (collisionID) {
+            scr_damage();
+        }
+        damaged = 1;
     }
 }
 </string>

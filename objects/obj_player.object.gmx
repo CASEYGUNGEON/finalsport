@@ -28,8 +28,6 @@
             <string>mp_sync();
 mp_addPosition("Pos",room_speed);
 mp_setType("Pos",mp_type.SMART);
-mp_addBuiltinBasic("basicDrawing",15*room_speed);
-mp_setType("basicDrawing",mp_type.SMART);
 mp_tolerance("Pos",20);
 mp_add("dir","dir",buffer_u16,1);
 mp_setType("dir",mp_type.FAST);
@@ -37,6 +35,7 @@ mp_add("controls","pressed_up,pressed_down,pressed_left,pressed_right",buffer_bo
 mp_setType("controls",mp_type.FAST);
 mp_add("attackType","attackType",buffer_s8,1);
 mp_setType("attackType",mp_type.FAST);
+mp_addBuiltinBasic("basic",1);
 
 //CUSTOMIZABLE VARIABLES
 
@@ -45,10 +44,12 @@ moveSpeed = 6;
 scale = .75;
 animationSpeed = 1;
 ammo = 3;
+grabDisjoint = 80;
+
 
 //NON-CUSTOMIZABLE VARIABLES
 
-if(!global.networkJoin) {
+if(htme_isLocal()) {
     self.playerChar = global.playerChar;
 } else {
     self.playerChar = global.player2Char;
@@ -62,13 +63,15 @@ if(!global.networkJoin) {
     y = obj_spawn2.y;
 }
 
+hitbox = instance_create(x,y,obj_rail_hitbox);
+hitbox.player = id;
+
 image_speed = 0;
 lenx = 20;
 leny = 1;
 shot_delay = 8;
 vari = 1;
 alarm[0] = 0;
-hitbox = 0;
 onCooldown = 0;
 attack = 0;
 dir = 0;
@@ -81,6 +84,7 @@ attackType = 0;
 thrown = 0;
 stunned = 0;
 flying = 0;
+hurt = 0;
 grabbed = 0;
 grab = 0;
 hurtbox = noone;
@@ -95,6 +99,31 @@ pressed_left = 0;
 pressed_right = 0;
 
 motion_set(0,0)
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="3">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>hurt = 0;
+image_alpha = 1;
+
 </string>
           </argument>
         </arguments>
@@ -265,176 +294,227 @@ mp_map_syncIn("dir",self.dir);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//point towards cursor
+            <string>if(!hurt) {
 
-if(attack == 0) {
-    if(self.dir &gt; 68 &amp;&amp; self.dir &lt;= 112){
-        facing = "up";
-    }else if(self.dir &gt; 113 &amp;&amp; self.dir &lt;= 157){
-        facing = "upleft";
-    }else if(self.dir &gt; 158 &amp;&amp; self.dir &lt;= 202){
-        facing = "left";
-    }else if(self.dir &gt; 203 &amp;&amp; self.dir &lt;= 247){
-        facing = "downleft";
-    }else if(self.dir &gt; 248 &amp;&amp; self.dir &lt;= 292){
-        facing = "down";
-    }else if(self.dir &gt; 293 &amp;&amp; self.dir &lt;= 337){
-        facing = "downright";
-    }else if(self.dir &gt; 338 || self.dir &lt;= 21){
-        facing = "right";
-    }else if(self.dir &gt; 22 &amp;&amp; self.dir &lt;= 67){
-        facing = "upright";
+    //point towards cursor
+    if(attack == 0) {
+        if(self.dir &gt; 68 &amp;&amp; self.dir &lt;= 112){
+            facing = "up";
+        }else if(self.dir &gt; 113 &amp;&amp; self.dir &lt;= 157){
+            facing = "upleft";
+        }else if(self.dir &gt; 158 &amp;&amp; self.dir &lt;= 202){
+            facing = "left";
+        }else if(self.dir &gt; 203 &amp;&amp; self.dir &lt;= 247){
+            facing = "downleft";
+        }else if(self.dir &gt; 248 &amp;&amp; self.dir &lt;= 292){
+            facing = "down";
+        }else if(self.dir &gt; 293 &amp;&amp; self.dir &lt;= 337){
+            facing = "downright";
+        }else if(self.dir &gt; 338 || self.dir &lt;= 21){
+            facing = "right";
+        }else if(self.dir &gt; 22 &amp;&amp; self.dir &lt;= 67){
+            facing = "upright";
+        }
     }
-}
-
-//movement
-
-
-colliding = 0;
-mask_index = asset_get_index(self.playerChar + "_down");
-stepx = 0;
-stepy = 0;
-
-
-if(!place_meeting(x,y,obj_pipewall_antibox)) {
-    depth = -y + 2161;
-} else {
-    depth = -y;
-}
-
-if(self.pressed_up) {
-    stepy -= moveSpeed;
-}
-
-if(self.pressed_down) {
-    stepy += moveSpeed;
-}
-
-if(self.pressed_left) {
-    stepx -= moveSpeed;
-}
-
-if(self.pressed_right) {
-    stepx += moveSpeed;
-}
-
-if(thrown) {
-    scr_thrown(throwdir);
-    thrown = 0;
-}
-
-
-movex += stepx;
-movey += stepy;
-
-moveDir = point_direction(0,0,movex,movey);
-
-if(instance_exists(hurtbox) &amp;&amp; hurtbox.caught == 1) {
-    movex = 0;
-    movey = 0;
+    
+    //movement
+    
+    
+    colliding = 0;
+    mask_index = asset_get_index(self.playerChar + "_down");
     stepx = 0;
     stepy = 0;
-}
-
-if(!place_meeting(x+movex,y+movey,obj_gen_enviro_hitbox)) {
-    x += movex;
-    y += movey;
-} else {
-    moveVectorLen = sqrt(abs(movex^2 + movey^2));
-    scr_avoid(moveVectorLen,moveDir,obj_gen_enviro_hitbox);
-}
-
-movex -= stepx;
-movey -= stepy;
-
-with obj_gen_enviro_hitbox {
-    if (place_meeting(x,y,obj_player)) {
-        obj_player.collisionDir = point_direction(x,y,obj_player.x,obj_player.y);
-        with other {
-            motion_set(collisionDir,obj_player.moveSpeed);
-        }
+    
+    
+    if(!place_meeting(x,y,obj_pipewall_antibox)) {
+        depth = -y + 9999;
     } else {
-        obj_player.speed = 0;
-    }       //prevents from getting stuck inside environment
-}
-
-//visual
-
-depth = -y;
-
-
-moveVsMouse = 180 - abs(abs(moveDir - dir) - 180);
-
-
-image_speed = animationSpeed;
-
-if(grab) {
-    sprite_index = scr_getSprite(self.playerChar,facing,"grab");
-} else {
-    if(abs(stepx) + abs(stepy) &gt; 0) {     //change to movement sprites if moving
-        if(!attack) {
-            if(sprite_index = scr_getSprite(self.playerChar,facing)) {
-                image_index = 0;
+        depth = -y;
+    }
+    
+    if(self.pressed_up) {
+        stepy -= moveSpeed;
+    }
+    
+    if(self.pressed_down) {
+        stepy += moveSpeed;
+    }
+    
+    if(self.pressed_left) {
+        stepx -= moveSpeed;
+    }
+    
+    if(self.pressed_right) {
+        stepx += moveSpeed;
+    }
+    
+    if(thrown) {
+        scr_thrown(throwdir);
+        thrown = 0;
+    }
+    
+    
+    movex += stepx;
+    movey += stepy;
+    
+    moveDir = point_direction(0,0,movex,movey);
+    
+    if(instance_exists(hurtbox) &amp;&amp; hurtbox.caught == 1) {
+        movex = 0;
+        movey = 0;
+    }
+    
+    if(!place_meeting(x+movex,y+movey,obj_gen_enviro_hitbox)) {
+        x += movex;
+        y += movey;
+    } else {
+        moveVectorLen = sqrt(abs(movex^2 + movey^2));
+        scr_avoid(moveVectorLen,moveDir,obj_gen_enviro_hitbox);
+    }
+    if(abs(movex)) {
+        movex -= stepx;
+    }
+    if(abs(movey)) {
+        movey -= stepy;
+    }
+    
+    //visual
+    
+    depth = -y;
+    
+    
+    moveVsMouse = 180 - abs(abs(moveDir - dir) - 180);
+    
+    
+    image_speed = animationSpeed;
+    
+    if(grab) {
+        sprite_index = scr_getSprite(self.playerChar,facing,"grab");
+    } else {
+        if(abs(stepx) + abs(stepy) &gt; 0) {     //change to movement sprites if moving
+            if(!attack) {
+                if(sprite_index = scr_getSprite(self.playerChar,facing)) {
+                    image_index = 0;
+                }
+                if(moveVsMouse &lt;= 112.5) {
+                    sprite_index = scr_getSprite(self.playerChar,facing,"move")
+                } else {
+                    if(moveVsMouse &gt; 112.5 &amp;&amp; !attack) {
+                        sprite_index = scr_getSprite(self.playerChar,facing,"backward")
+                    }
+                }
             }
-            if(moveVsMouse &lt;= 112.5) {
-                sprite_index = scr_getSprite(self.playerChar,facing,"move")
-            } else {
-                if(moveVsMouse &gt; 112.5 &amp;&amp; !attack) {
-                    sprite_index = scr_getSprite(self.playerChar,facing,"backward")
+        } else {
+            if(!attack) {          //change to idle sprites if not moving
+                sprite_index = scr_getSprite(self.playerChar,facing);
+                if(sprite_index = scr_getSprite(self.playerChar,facing,"attack")) {
+                    image_index = 0;
                 }
             }
         }
-    } else {
-        if(!attack) {          //change to idle sprites if not moving
-            sprite_index = scr_getSprite(self.playerChar,facing);
-            if(sprite_index = scr_getSprite(self.playerChar,facing,"attack")) {
-                image_index = 0;
+    }
+    if(self.attackType == 8 &amp;&amp; !keyboard_check(ord(' '))) {
+        blockRelease = 1;
+    }   else {
+        blockRelease = 0;
+    }
+    
+    
+    //attacking
+    
+    if(!onCooldown) {
+    
+        switch (self.attackType) {
+            case mb_left: {     //main attack
+                attack = 1;                 
+                sprite_index = scr_getSprite(self.playerChar,facing,"att");
+                hurtbox = scr_attack();
+                break;
+            }
+            case mb_right: {    //grab
+                grab = 1;
+                sprite_index = scr_getSprite(self.playerChar,facing,"grab");
+                hurtbox = scr_grab();
+                break;
+            }
+            case 8: {   //block
+            
+            break;
             }
         }
     }
-}
-if(self.attackType == 8 &amp;&amp; !keyboard_check(ord(' '))) {
-    blockRelease = 1;
-}   else {
-    blockRelease = 0;
-}
-
-
-//attacking
-
-if(!onCooldown) {
-
-    switch (self.attackType) {
-        case mb_left: {     //main attack
-            attack = 1;                 
-            sprite_index = scr_getSprite(self.playerChar,facing,"att");
-            hurtbox = scr_attack();
-            break;
-        }
-        case mb_right: {    //grab
-            grab = 1;
-            sprite_index = scr_getSprite(self.playerChar,facing,"grab");
-            hurtbox = scr_grab();
-            break;
-        }
-        case 8: {   //block
-        
-        break;
-        }
-    }
-}
-
-if(self.playerChar == "hira") {
-
-    collisionID = instance_place(x,y,obj_knife);
     
-    if(collisionID != noone &amp;&amp; ammo &lt; 3) {
-        if(collisionID.hit || collisionID.collided) {
-            ammo += 1;
-            instance_destroy(collisionID);
+    if(self.playerChar == "hira") {
+    
+        collisionID = instance_place(x,y,obj_knife);
+        
+        if(collisionID != noone &amp;&amp; ammo &lt; 3) {
+            if(collisionID.hit || collisionID.collided) {
+                ammo += 1;
+                instance_destroy(collisionID);
+            }
         }
     }
+} else {
+    if(hurtToggle &amp;&amp; !alarm[3]) {
+        hurtToggle = 0;
+        body = instance_create(x,y,obj_dead);
+        body.alarm[0] = 60;
+        image_alpha = 0;
+        if(htme_isLocal()) {
+            if(!global.networkJoin) {
+                x = obj_spawn1.x;
+                y = obj_spawn1.y;
+            } else {
+                x = obj_spawn2.x;
+                y = obj_spawn2.y;
+            } 
+        } else {
+            if(global.networkJoin) {
+                x = obj_spawn1.x;
+                y = obj_spawn1.y;
+            } else {
+                x = obj_spawn2.x;
+                y = obj_spawn2.y;
+            }
+        }
+        self.alarm[3] = room_speed;
+        if(htme_isLocal()) {
+            if(!global.networkJoin) {
+                var lifecount = htme_globalGet("hostLives") - 1;
+                htme_globalSet("hostLives",lifecount,buffer_u8);
+            } else {
+                var lifecount = htme_globalGet("clientLives") - 1;
+                htme_globalSet("clientLives",lifecount,buffer_u8);
+            }
+        } 
+    }
 }
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_text(x+40,y-40,string(alarm[3]));
+draw_self();
 </string>
           </argument>
         </arguments>

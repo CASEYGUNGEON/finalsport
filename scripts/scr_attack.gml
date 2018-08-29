@@ -9,6 +9,7 @@ switch (self.playerChar) {
         hurtbox.image_yscale = scale;
         hurtbox.startup = 16;
         hurtbox.player = id;
+        hurtbox.ignore = hitbox;
         onCooldown = 1;
         hurtbox.disjointx = 0
         hurtbox.disjointy = 0
@@ -29,6 +30,7 @@ switch (self.playerChar) {
             hurtbox.image_yscale = scale * .75;
             hurtbox.image_angle = dir;
             hurtbox.startup = 5;
+            hurtbox.ignore = hitbox;
             onCooldown = 1;
             alarm[0] = 30;
             alarm[1] = 14;

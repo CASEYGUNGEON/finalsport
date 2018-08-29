@@ -3,8 +3,8 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
-  <datafiles number="2" name="datafiles">
-    <datafiles number="2" name="htme">
+  <datafiles number="3" name="datafiles">
+    <datafiles number="3" name="htme">
       <datafile>
         <name>README.txt</name>
         <exists>-1</exists>
@@ -109,11 +109,13 @@
     </sprites>
     <sprite>sprites\spr_knife</sprite>
     <sprite>sprites\spr_spawn1</sprite>
+    <sprite>sprites\spr_charhud</sprite>
+    <sprite>sprites\spr_lives</sprite>
     <sprite>sprites\spr_spawn2</sprite>
     <sprite>sprites\spr_stars</sprite>
     <sprite>sprites\spr_punch</sprite>
     <sprite>sprites\hurtbox_rail</sprite>
-    <sprite>sprites\spr_charhud</sprite>
+    <sprite>sprites\spr_game</sprite>
     <sprite>sprites\spr_grab</sprite>
     <sprites name="menu">
       <sprites name="main">
@@ -139,6 +141,7 @@
       <sprite>sprites\rail_left</sprite>
       <sprite>sprites\rail_downleft</sprite>
       <sprite>sprites\rail_down</sprite>
+      <sprite>sprites\rail_death</sprite>
       <sprite>sprites\rail_downright</sprite>
       <sprite>sprites\rail_right</sprite>
       <sprite>sprites\rail_upright</sprite>
@@ -228,8 +231,11 @@
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\scr_attack.gml</script>
+    <script>scripts\scr_char_number.gml</script>
+    <script>scripts\scr_damage.gml</script>
     <script>scripts\scr_grab.gml</script>
     <script>scripts\scr_thrown.gml</script>
+    <script>scripts\scr_restart.gml</script>
     <script>scripts\scr_vectorAdd.gml</script>
     <script>scripts\scr_avoid.gml</script>
     <script>scripts\scr_getSprite.gml</script>
@@ -435,6 +441,8 @@
       <object>objects\obj_player</object>
       <object>objects\obj_spawn1</object>
       <object>objects\obj_charhud</object>
+      <object>objects\obj_dead</object>
+      <object>objects\obj_ender</object>
       <object>objects\obj_spawn2</object>
       <object>objects\obj_player_offline</object>
       <objects name="hurtboxes">
@@ -473,6 +481,9 @@
         <object>objects\obj_charpanel</object>
         <object>objects\obj_rock</object>
       </objects>
+      <objects name="endscreen">
+        <object>objects\obj_ranking</object>
+      </objects>
       <object>objects\obj_stageselect</object>
     </objects>
     <objects name="htme_demo">
@@ -506,6 +517,7 @@
     <room>rooms\rm_game</room>
     <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_charselect</room>
+    <room>rooms\rm_matchEnd</room>
     <room>rooms\rm_stageselect</room>
     <room>rooms\rm_level1</room>
     <room>rooms\rm_join</room>
