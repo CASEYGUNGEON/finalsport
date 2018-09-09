@@ -15,4 +15,6 @@
 **
 */
 
-return htme_string_explode(argument0,chr(31),0);
+//return htme_string_explode(argument0,chr(31),0);
+
+return global.player2Name;
