@@ -301,6 +301,16 @@
       <sprite>sprites\rail_right</sprite>
       <sprite>sprites\rail_upright</sprite>
       <sprite>sprites\rail_down_hitbox</sprite>
+      <sprites name="rail block">
+        <sprite>sprites\rail_up_block</sprite>
+        <sprite>sprites\rail_upleft_block</sprite>
+        <sprite>sprites\rail_left_block</sprite>
+        <sprite>sprites\rail_downleft_block</sprite>
+        <sprite>sprites\rail_down_block</sprite>
+        <sprite>sprites\rail_downright_block</sprite>
+        <sprite>sprites\rail_right_block</sprite>
+        <sprite>sprites\rail_upright_block</sprite>
+      </sprites>
       <sprites name="rail grab">
         <sprite>sprites\rail_up_grab</sprite>
         <sprite>sprites\rail_upleft_grab</sprite>

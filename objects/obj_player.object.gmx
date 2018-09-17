@@ -88,6 +88,7 @@ hurt = 0;
 grabbed = 0;
 grab = 0;
 hurtbox = noone;
+block = 0;
 
 movex = 0;
 movey = 0;
@@ -261,6 +262,7 @@ self.dir = mp_map_syncOut("dir",self.dir);
     self.attackType = mouse_button;
     if((self.attackType == mb_none) &amp;&amp; keyboard_check(ord(' '))) {
         self.attackType = 8;
+        block = 1;
     }
     
     self.dir = point_direction(x,y,mouse_x,mouse_y);
@@ -391,30 +393,39 @@ mp_map_syncIn("dir",self.dir);
     if(grab) {
         sprite_index = scr_getSprite(self.playerChar,facing,"grab");
     } else {
-        if(abs(stepx) + abs(stepy) &gt; 0) {     //change to movement sprites if moving
-            if(!attack) {
-                if(sprite_index = scr_getSprite(self.playerChar,facing)) {
-                    image_index = 0;
-                }
-                if(moveVsMouse &lt;= 112.5) {
-                    sprite_index = scr_getSprite(self.playerChar,facing,"move")
-                } else {
-                    if(moveVsMouse &gt; 112.5 &amp;&amp; !attack) {
-                        sprite_index = scr_getSprite(self.playerChar,facing,"backward")
-                    }
-                }
+        if(block) {
+            sprite_index = scr_getSprite(self.playerChar,facing,"block");
+            if(image_index &gt; 2) {
+                image_speed = 0;
             }
         } else {
-            if(!attack) {          //change to idle sprites if not moving
-                sprite_index = scr_getSprite(self.playerChar,facing);
-                if(sprite_index = scr_getSprite(self.playerChar,facing,"attack")) {
-                    image_index = 0;
+            if(abs(stepx) + abs(stepy) &gt; 0) {     //change to movement sprites if moving
+                if(!attack) {
+                    if(sprite_index = scr_getSprite(self.playerChar,facing)) {
+                        image_index = 0;
+                    }
+                    if(moveVsMouse &lt;= 112.5) {
+                        sprite_index = scr_getSprite(self.playerChar,facing,"move")
+                    } else {
+                        if(moveVsMouse &gt; 112.5 &amp;&amp; !attack) {
+                            sprite_index = scr_getSprite(self.playerChar,facing,"backward")
+                        }
+                    }
+                }
+            } else {
+                if(!attack) {          //change to idle sprites if not moving
+                    sprite_index = scr_getSprite(self.playerChar,facing);
+                    if(sprite_index = scr_getSprite(self.playerChar,facing,"attack")) {
+                        image_index = 0;
+                    }
                 }
             }
         }
     }
-    if(self.attackType == 8 &amp;&amp; !keyboard_check(ord(' '))) {
+    if(block &amp;&amp; self.attackType != 8) {
         blockRelease = 1;
+        block = 0;
+        image_speed = 1;
     }   else {
         blockRelease = 0;
     }
@@ -438,7 +449,9 @@ mp_map_syncIn("dir",self.dir);
                 break;
             }
             case 8: {   //block
-            
+                sprite_index = scr_getSprite(self.playerChar,facing,"block");
+                image_index = 0;
+                image_speed = 1;
             break;
             }
         }
