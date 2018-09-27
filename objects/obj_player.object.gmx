@@ -89,6 +89,7 @@ grabbed = 0;
 grab = 0;
 hurtbox = noone;
 block = 0;
+hurtToggle = 0;
 
 movex = 0;
 movey = 0;
@@ -296,9 +297,12 @@ mp_map_syncIn("dir",self.dir);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(!hurt) {
+            <string>image_blend = -1;
+
+if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
 
     //point towards cursor
+    
     if(attack == 0) {
         if(self.dir &gt; 68 &amp;&amp; self.dir &lt;= 112){
             facing = "up";
@@ -361,7 +365,7 @@ mp_map_syncIn("dir",self.dir);
     
     moveDir = point_direction(0,0,movex,movey);
     
-    if(instance_exists(hurtbox) &amp;&amp; hurtbox.caught == 1) {
+    if(instance_exists(hurtbox) &amp;&amp; (hurtbox.object_index == obj_grab) &amp;&amp; hurtbox.caught == 1 &amp;&amp; !block) {
         movex = 0;
         movey = 0;
     }
@@ -378,6 +382,11 @@ mp_map_syncIn("dir",self.dir);
     }
     if(abs(movey)) {
         movey -= stepy;
+    }
+    
+    if(movex || movey) {
+        movex = floor(movex / 4);
+        movey = floor(movey / 4);
     }
     
     //visual
@@ -452,6 +461,8 @@ mp_map_syncIn("dir",self.dir);
                 sprite_index = scr_getSprite(self.playerChar,facing,"block");
                 image_index = 0;
                 image_speed = 1;
+                block = 1;
+                hurtbox = scr_block();
             break;
             }
         }
@@ -474,6 +485,7 @@ mp_map_syncIn("dir",self.dir);
         body = instance_create(x,y,obj_dead);
         body.alarm[0] = 60;
         image_alpha = 0;
+        alarm[2] = 1;
         if(htme_isLocal()) {
             if(!global.networkJoin) {
                 x = obj_spawn1.x;
@@ -500,10 +512,42 @@ mp_map_syncIn("dir",self.dir);
                 var lifecount = htme_globalGet("clientLives") - 1;
                 htme_globalSet("clientLives",lifecount,buffer_u8);
             }
-        } 
+        }
+    }
+
+    if(hitbox.grabbed &amp;&amp; instance_exists(grabInstance)) {
+        x = grabInstance.x;
+        y = grabInstance.y;
+        throwx = 0;
+        throwy = 0;
+        flying = 0;
+        alarm[2] = 1;
+        image_blend = c_green;
+    }
+    
+    if(stunned) {
+        image_blend = c_blue;
+    }
+    
+    if(flying) {
+        if(abs(throwx) || abs(throwy)) {
+            if(!place_meeting(x+throwx,y+throwy,obj_gen_enviro_hitbox)) {
+                x += throwx;
+                y += throwy;
+            } else if(flying) {
+                stunned = 1;
+                flying = 0;
+                alarm[2] = room_speed * 2;
+                throwx = 0;
+                throwy = 0;
+            }
+            throwx += throwxminus;
+            throwy += throwyminus;
+        } else {
+            flying = 0;
+        }
     }
 }
-
 </string>
           </argument>
         </arguments>

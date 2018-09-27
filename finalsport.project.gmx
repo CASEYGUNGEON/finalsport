@@ -265,6 +265,7 @@
     <sprite>sprites\spr_stars</sprite>
     <sprite>sprites\spr_punch</sprite>
     <sprite>sprites\hurtbox_rail</sprite>
+    <sprite>sprites\spr_block</sprite>
     <sprite>sprites\spr_game</sprite>
     <sprite>sprites\spr_grab</sprite>
     <sprites name="menu">
@@ -670,7 +671,9 @@
     </scripts>
     <script>scripts\scr_attack.gml</script>
     <script>scripts\scr_char_number.gml</script>
+    <script>scripts\scr_block.gml</script>
     <script>scripts\scr_damage.gml</script>
+    <script>scripts\scr_blocked.gml</script>
     <script>scripts\scr_grab.gml</script>
     <script>scripts\scr_thrown.gml</script>
     <script>scripts\scr_vectorAdd.gml</script>
@@ -758,15 +761,16 @@
       <object>objects\obj_ender</object>
       <object>objects\obj_spawn2</object>
       <object>objects\obj_player_offline</object>
+      <object>objects\obj_player2</object>
       <objects name="hurtboxes">
         <object>objects\obj_genHurtbox</object>
+        <object>objects\obj_block</object>
         <object>objects\obj_fist</object>
         <object>objects\obj_grab</object>
         <object>objects\obj_knife</object>
       </objects>
       <object>objects\obj_gen_hitbox</object>
       <object>objects\obj_rail_hitbox</object>
-      <object>objects\obj_player2</object>
     </objects>
     <objects name="environment">
       <objects name="generic">
