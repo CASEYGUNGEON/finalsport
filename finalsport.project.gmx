@@ -111,6 +111,7 @@
     <sprite>sprites\spr_stars</sprite>
     <sprite>sprites\spr_punch</sprite>
     <sprite>sprites\hurtbox_rail</sprite>
+    <sprite>sprites\spr_block</sprite>
     <sprite>sprites\spr_grab</sprite>
     <sprites name="menu">
       <sprites name="main">
@@ -212,7 +213,7 @@
       <sprite>sprites\htme_logo</sprite>
     </sprites>
     <sprites name="deth">
-      <sprites name="walk">
+      <sprites name="deth move">
         <sprite>sprites\deth_left_move</sprite>
       </sprites>
     </sprites>
@@ -227,6 +228,7 @@
     <script>scripts\scr_attack.gml</script>
     <script>scripts\scr_grab.gml</script>
     <script>scripts\scr_thrown.gml</script>
+    <script>scripts\scr_block.gml</script>
     <script>scripts\scr_vectorAdd.gml</script>
     <script>scripts\scr_avoid.gml</script>
     <script>scripts\scr_getSprite.gml</script>
@@ -435,6 +437,7 @@
         <object>objects\obj_fist</object>
         <object>objects\obj_grab</object>
         <object>objects\obj_knife</object>
+        <object>objects\obj_block</object>
       </objects>
       <object>objects\obj_gen_hitbox</object>
       <object>objects\obj_rail_hitbox</object>
