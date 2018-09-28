@@ -204,7 +204,7 @@ image_alpha = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>    self.attackType = 8;
+            <string>    self.attackType = mb_left;
     self.dir = 100;
 </string>
           </argument>

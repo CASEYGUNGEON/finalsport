@@ -88,6 +88,7 @@ hurt = 0;
 grabbed = 0;
 grab = 0;
 hurtbox = noone;
+blockbox = noone;
 block = 0;
 hurtToggle = 0;
 
@@ -263,7 +264,6 @@ self.dir = mp_map_syncOut("dir",self.dir);
     self.attackType = mouse_button;
     if((self.attackType == mb_none) &amp;&amp; keyboard_check(ord(' '))) {
         self.attackType = 8;
-        block = 1;
     }
     
     self.dir = point_direction(x,y,mouse_x,mouse_y);
@@ -365,7 +365,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     
     moveDir = point_direction(0,0,movex,movey);
     
-    if(instance_exists(hurtbox) &amp;&amp; (hurtbox.object_index == obj_grab) &amp;&amp; hurtbox.caught == 1 &amp;&amp; !block) {
+    if(instance_exists(hurtbox) &amp;&amp; (hurtbox.object_index == obj_grab) &amp;&amp; hurtbox.caught == 1) {
         movex = 0;
         movey = 0;
     }
@@ -377,17 +377,15 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         moveVectorLen = sqrt(abs(movex^2 + movey^2));
         scr_avoid(moveVectorLen,moveDir,obj_gen_enviro_hitbox);
     }
-    if(abs(movex)) {
+    if(abs(stepx)) {
         movex -= stepx;
     }
-    if(abs(movey)) {
+    if(abs(stepy)) {
         movey -= stepy;
     }
     
-    if(movex || movey) {
-        movex = floor(movex / 4);
-        movey = floor(movey / 4);
-    }
+    movex -= sign(movex) * 0.5;
+    movey -= sign(movey) * 0.5;
     
     //visual
     
@@ -431,13 +429,6 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
             }
         }
     }
-    if(block &amp;&amp; self.attackType != 8) {
-        blockRelease = 1;
-        block = 0;
-        image_speed = 1;
-    }   else {
-        blockRelease = 0;
-    }
     
     
     //attacking
@@ -462,7 +453,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
                 image_index = 0;
                 image_speed = 1;
                 block = 1;
-                hurtbox = scr_block();
+                blockbox = scr_block();
             break;
             }
         }

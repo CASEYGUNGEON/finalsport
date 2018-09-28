@@ -29,9 +29,9 @@
 y = player.y;
 image_angle = player.dir;
 
-if(keyboard_check_released(' ')) {
-    block = 0;
-    onCooldown = 0;
+if(!(player.attackType == 8)) {
+    player.block = 0;
+    player.onCooldown = 0;
     instance_destroy();
 }
 </string>

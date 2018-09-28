@@ -1,5 +1,8 @@
 var hurtbox;
 
+grabDisjointx = lengthdir_x(grabDisjoint,dir);
+grabDisjointy = lengthdir_y(grabDisjoint,dir);
+
 hurtbox = instance_create(x+grabDisjointx,y+grabDisjointy,obj_grab);
 hurtbox.image_angle = dir;
 hurtbox.disjoint = grabDisjoint;

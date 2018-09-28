@@ -672,6 +672,7 @@
     <script>scripts\scr_attack.gml</script>
     <script>scripts\scr_char_number.gml</script>
     <script>scripts\scr_block.gml</script>
+    <script>scripts\scr_gotBlocked.gml</script>
     <script>scripts\scr_damage.gml</script>
     <script>scripts\scr_blocked.gml</script>
     <script>scripts\scr_grab.gml</script>
