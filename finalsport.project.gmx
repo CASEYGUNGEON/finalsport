@@ -205,6 +205,18 @@
         <sprite>sprites\spr_pipe_wall_box</sprite>
       </sprites>
     </sprites>
+    <sprites name="deth">
+      <sprite>sprites\deth_up_move</sprite>
+      <sprite>sprites\deth_up</sprite>
+      <sprite>sprites\deth_upleft</sprite>
+      <sprite>sprites\deth_left</sprite>
+      <sprite>sprites\deth_downleft</sprite>
+      <sprite>sprites\deth_down</sprite>
+      <sprite>sprites\deth_downright</sprite>
+      <sprite>sprites\deth_right</sprite>
+      <sprite>sprites\deth_up_att</sprite>
+      <sprite>sprites\deth_upright</sprite>
+    </sprites>
     <sprites name="test">
       <sprites name="pp">
         <sprite>sprites\player_up</sprite>

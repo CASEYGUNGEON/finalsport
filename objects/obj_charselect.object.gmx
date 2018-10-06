@@ -56,6 +56,9 @@
         case 1:
             global.playerChar = "hira";
             break;
+        case 2:
+            global.playerChar = "deth";
+            break;
         default:
             global.playerChar = "none";
             break;

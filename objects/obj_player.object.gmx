@@ -91,6 +91,7 @@ hurtbox = noone;
 blockbox = noone;
 block = 0;
 hurtToggle = 0;
+charge = 0;
 
 movex = 0;
 movey = 0;
@@ -261,10 +262,21 @@ self.dir = mp_map_syncOut("dir",self.dir);
     self.pressed_left = keyboard_check(ord('A'));
     self.pressed_right = keyboard_check(ord('D'));
     
-    self.attackType = mouse_button;
-    if((self.attackType == mb_none) &amp;&amp; keyboard_check(ord(' '))) {
-        self.attackType = 8;
+    self.attackType = 0;
+    
+    if(mouse_check_button_pressed(mb_left)) {
+        self.attackType = 6;
     }
+    if(mouse_check_button_released(mb_left)) {
+        self.attackType = 7;
+    }
+    if(!self.attackType &amp;&amp; mouse_button != mb_left) {
+        self.attackType = mouse_button;
+        if((self.attackType == mb_none) &amp;&amp; keyboard_check(ord(' '))) {
+            self.attackType = 8;
+        }
+    }
+    
     
     self.dir = point_direction(x,y,mouse_x,mouse_y);
 }
@@ -395,7 +407,9 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     moveVsMouse = 180 - abs(abs(moveDir - dir) - 180);
     
     
-    image_speed = animationSpeed;
+    if(!charge) {
+        image_speed = animationSpeed;
+    }
     
     if(grab) {
         sprite_index = scr_getSprite(self.playerChar,facing,"grab");
@@ -407,7 +421,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
             }
         } else {
             if(abs(stepx) + abs(stepy) &gt; 0) {     //change to movement sprites if moving
-                if(!attack) {
+                if(!attack &amp;&amp; !charge) {
                     if(sprite_index = scr_getSprite(self.playerChar,facing)) {
                         image_index = 0;
                     }
@@ -420,7 +434,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
                     }
                 }
             } else {
-                if(!attack) {          //change to idle sprites if not moving
+                if(!attack &amp;&amp; !charge) {          //change to idle sprites if not moving
                     sprite_index = scr_getSprite(self.playerChar,facing);
                     if(sprite_index = scr_getSprite(self.playerChar,facing,"attack")) {
                         image_index = 0;
@@ -436,9 +450,16 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     if(!onCooldown) {
     
         switch (self.attackType) {
-            case mb_left: {     //main attack
-                attack = 1;                 
+            case 6: {     //charge
+                charge = 1;
                 sprite_index = scr_getSprite(self.playerChar,facing,"att");
+                image_speed = 0;
+                break;
+            }
+            case 7: {     //attack
+                charge = 0;
+                attack = 1;
+                image_speed = 1
                 hurtbox = scr_attack();
                 break;
             }
