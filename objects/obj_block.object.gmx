@@ -29,7 +29,7 @@
 y = player.y;
 image_angle = player.dir;
 
-if(!(player.attackType == 8)) {
+if(player.attackType != 9) {
     player.block = 0;
     player.onCooldown = 0;
     instance_destroy();

@@ -25,11 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>clicked = 0;
-global.play = 0;
+            <string>global.play = 0;
 image_speed = 0;
 stop = 512;
-i = 30;
 </string>
           </argument>
         </arguments>
@@ -52,34 +50,89 @@ i = 30;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(i&gt;0) {
-    i--;
-}
+            <string>///movement
 
-move = (x-stop)/10;
-
-if(i == 0) {
+if(x != stop) {
+    move = floor(abs(x-stop)/10);
     move_towards_point(stop,y,move);
 }
 
-if(position_meeting(mouse_x, mouse_y, id)) {
-    image_index = 1;
-} else {
-    image_index = 0;
-}
-
-if (mouse_check_button_released(mb_left)) {
-    if(position_meeting(mouse_x, mouse_y, id)) {
-        global.play = 1;
-        stop = -150;
-    } else {
-        if(x &gt; 512) {
-            i = 0;
-            x = 512;
-        }
-    }
-}
-
+//if (mouse_check_button_released(mb_left) &amp;&amp; !position_meeting(mouse_x, mouse_y, id)) {
+//    x = stop;
+//}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>image_index = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>image_index = 1;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="7">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>global.play = 1;
+stop = -150;
+obj_quit.stop = -150;
+obj_host.stop = 512;
+obj_join.stop = 512;
 </string>
           </argument>
         </arguments>

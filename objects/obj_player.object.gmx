@@ -27,15 +27,15 @@
             <kind>1</kind>
             <string>mp_sync();
 mp_addPosition("Pos",room_speed);
-mp_setType("Pos",mp_type.SMART);
+mp_setType("Pos",mp_type.FAST);
 mp_tolerance("Pos",20);
 mp_add("dir","dir",buffer_u16,1);
-mp_setType("dir",mp_type.FAST);
+mp_setType("dir",mp_type.SMART);
 mp_add("controls","pressed_up,pressed_down,pressed_left,pressed_right",buffer_bool,1);
-mp_setType("controls",mp_type.FAST);
-mp_add("attackType","attackType",buffer_s8,1);
-mp_setType("attackType",mp_type.FAST);
-mp_addBuiltinBasic("basic",1);
+mp_setType("controls",mp_type.SMART);
+mp_add("attackType","attackType",buffer_u8,1);
+mp_setType("attackType",mp_type.SMART);
+
 
 //CUSTOMIZABLE VARIABLES
 
@@ -58,9 +58,11 @@ if(htme_isLocal()) {
 if(!global.networkJoin) {
     x = obj_spawn1.x;
     y = obj_spawn1.y;
+    htme_globalSet("remotehurthost",0,buffer_bool);
 } else {
     x = obj_spawn2.x;
     y = obj_spawn2.y;
+    htme_globalSet("remotehurtclient",0,buffer_bool);
 }
 
 hitbox = instance_create(x,y,obj_rail_hitbox);
@@ -92,6 +94,11 @@ blockbox = noone;
 block = 0;
 hurtToggle = 0;
 charge = 0;
+meter = 0;
+blockeddir = 0;
+forcesync = 0;
+caughtID = noone;
+lastdir = 0;
 
 movex = 0;
 movey = 0;
@@ -184,6 +191,27 @@ image_alpha = 1;
           </argument>
         </arguments>
       </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>sprite_index = scr_getSprite(self.playerChar,facing);
+</string>
+          </argument>
+        </arguments>
+      </action>
     </event>
     <event eventtype="2" enumb="0">
       <action>
@@ -261,24 +289,77 @@ self.dir = mp_map_syncOut("dir",self.dir);
     self.pressed_down = keyboard_check(ord('S'));
     self.pressed_left = keyboard_check(ord('A'));
     self.pressed_right = keyboard_check(ord('D'));
-    
-    self.attackType = 0;
-    
-    if(mouse_check_button_pressed(mb_left)) {
-        self.attackType = 6;
+
+    if(self.attackType != 7 &amp;&amp; self.attackType != 9) {
+        self.attackType = 0;
     }
-    if(mouse_check_button_released(mb_left)) {
-        self.attackType = 7;
-    }
-    if(!self.attackType &amp;&amp; mouse_button != mb_left) {
-        self.attackType = mouse_button;
-        if((self.attackType == mb_none) &amp;&amp; keyboard_check(ord(' '))) {
+
+    if(self.attackType != 9) {
+        if(mouse_check_button_pressed(mb_left)) {
+            self.attackType = 6;
+        } else {
+            if(mouse_check_button(mb_left)) {
+                self.attackType = 7;
+            }
+        }
+        if(mouse_check_button_released(mb_left)) {
             self.attackType = 8;
+        }
+    } else {
+        if(keyboard_check_released(ord(' '))) {
+            self.attackType = 10;
         }
     }
     
+    if(!self.attackType) {
+        if(mouse_button == mb_right) {
+            self.attackType = 12;
+        } else {
+            if(keyboard_check_pressed(ord(' '))) {
+                self.attackType = 9;
+            } else {
+                if(keyboard_check(ord('E')) &amp;&amp; self.meter == 1) {
+                    self.attackType = 11;
+                }
+            }
+        }
+    }
+
+    if(global.networkJoin) {
+        self.attackType = 9;
+    }
+
+
+    if(!charge &amp;&amp; !attack) {
+        lastdir = dir;
+        self.dir = point_direction(x,y,mouse_x,mouse_y);
+    }
+
+    if(!global.networkJoin &amp;&amp; htme_globalGet("remotehurtclient")) {
+        if(meter &lt; 100) {
+            meter += 20;
+        }
+    }
+    if(global.networkJoin &amp;&amp; htme_globalGet("remotehurthost")) {
+        if(meter &lt; 100) {
+            meter += 20;
+        }
+    }
     
-    self.dir = point_direction(x,y,mouse_x,mouse_y);
+} else {
+    if(!global.networkJoin &amp;&amp; htme_globalGet("remotehurtclient")) {
+        htme_globalSet("remotehurtclient",0,buffer_bool);
+        hurt = 1;
+        hurtToggle = 1;
+        obj_camera.shake = 20;
+    } else {
+        if(global.networkJoin &amp;&amp; htme_globalGet("remotehurthost")) {
+            htme_globalSet("remotehurthost",0,buffer_bool);
+            hurt = 1;
+            hurtToggle = 1;
+            obj_camera.shake = 20;
+        }
+    }
 }
 
 mp_map_syncIn("pressed_up",self.pressed_up);
@@ -312,10 +393,15 @@ mp_map_syncIn("dir",self.dir);
             <string>image_blend = -1;
 
 if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
+    
 
+    if(grab &amp;&amp; place_meeting_other(caughtID,x+lengthdir_x(hurtbox.disjoint,dir),y+lengthdir_y(hurtbox.disjoint,dir),obj_gen_enviro_hitbox)) {
+        dir = lastdir;
+    }
+    
     //point towards cursor
     
-    if(attack == 0) {
+    if(!attack) {
         if(self.dir &gt; 68 &amp;&amp; self.dir &lt;= 112){
             facing = "up";
         }else if(self.dir &gt; 113 &amp;&amp; self.dir &lt;= 157){
@@ -342,6 +428,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     mask_index = asset_get_index(self.playerChar + "_down");
     stepx = 0;
     stepy = 0;
+    forcesync = 0;
     
     
     if(!place_meeting(x,y,obj_pipewall_antibox)) {
@@ -389,15 +476,30 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         moveVectorLen = sqrt(abs(movex^2 + movey^2));
         scr_avoid(moveVectorLen,moveDir,obj_gen_enviro_hitbox);
     }
-    if(abs(stepx)) {
+    if(abs(stepx) &amp;&amp; abs(movex)) {
         movex -= stepx;
     }
-    if(abs(stepy)) {
+    if(abs(stepy) &amp;&amp; abs(movey)) {
         movey -= stepy;
     }
     
-    movex -= sign(movex) * 0.5;
-    movey -= sign(movey) * 0.5;
+    movex -= sign(movex);
+    movey -= sign(movey);
+    
+    if(abs(movex) &lt; .5) {
+        movex = 0;
+        forcesync = 1;
+    }
+    
+    if(abs(movey) &lt; .5) {
+        movey = 0;
+        forcesync = 1;
+    }
+    
+    if(forcesync) {
+        htme_syncGroupNow("Pos");
+    }
+    
     
     //visual
     
@@ -446,9 +548,13 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     
     
     //attacking
-    
     if(!onCooldown) {
-    
+        if(charge &amp;&amp; self.attackType == 0) {
+            self.attackType = 8;
+        }
+        if(!charge &amp;&amp; self.attackType == 7) {
+            self.attackType = 6;
+        }
         switch (self.attackType) {
             case 6: {     //charge
                 charge = 1;
@@ -456,25 +562,33 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
                 image_speed = 0;
                 break;
             }
-            case 7: {     //attack
+            case 8: {     //attack
                 charge = 0;
                 attack = 1;
-                image_speed = 1
+                image_speed = 1;
                 hurtbox = scr_attack();
                 break;
             }
-            case mb_right: {    //grab
+            case 12: {    //grab
                 grab = 1;
                 sprite_index = scr_getSprite(self.playerChar,facing,"grab");
                 hurtbox = scr_grab();
                 break;
             }
-            case 8: {   //block
+            case 9: {   //block
                 sprite_index = scr_getSprite(self.playerChar,facing,"block");
                 image_index = 0;
                 image_speed = 1;
                 block = 1;
                 blockbox = scr_block();
+            break;
+            }
+            case 10: {  //unblock
+            break;
+            }
+            case 11: {
+                sprite_index = scr_getSprite(self.playerChar,"pink");
+                scr_ability();
             break;
             }
         }
@@ -515,6 +629,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
                 y = obj_spawn2.y;
             }
         }
+        htme_syncGroupNow("Pos")
         self.alarm[3] = room_speed;
         if(htme_isLocal()) {
             if(!global.networkJoin) {
@@ -527,7 +642,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         }
     }
 
-    if(hitbox.grabbed &amp;&amp; instance_exists(grabInstance)) {
+    if(hitbox.grabbed &amp;&amp; instance_exists(grabInstance) &amp;&amp; !place_meeting(grabInstance.x,grabInstance.y,obj_gen_enviro_hitbox)) {
         x = grabInstance.x;
         y = grabInstance.y;
         throwx = 0;
@@ -546,6 +661,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
             if(!place_meeting(x+throwx,y+throwy,obj_gen_enviro_hitbox)) {
                 x += throwx;
                 y += throwy;
+                htme_syncGroupNow("Pos");
             } else if(flying) {
                 stunned = 1;
                 flying = 0;
@@ -605,7 +721,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_text(x+40,y-40,string(alarm[3]));
+            <string>draw_text(x+40,y-40,string(self.meter));
 draw_self();
 </string>
           </argument>

@@ -309,6 +309,7 @@
       <sprite>sprites\rail_left</sprite>
       <sprite>sprites\rail_downleft</sprite>
       <sprite>sprites\rail_down</sprite>
+      <sprite>sprites\rail_pink</sprite>
       <sprite>sprites\rail_death</sprite>
       <sprite>sprites\rail_downright</sprite>
       <sprite>sprites\rail_right</sprite>
@@ -394,11 +395,17 @@
         <sprite>sprites\deth_left_move</sprite>
       </sprites>
     </sprites>
+    <sprite>sprites\spr_cloud</sprite>
+    <sprite>sprites\spr_smokey</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
     <background>background\background1</background>
     <background>background\background3</background>
+    <background>background\news_screen</background>
+    <background>background\news_screen_2</background>
+    <background>background\news_screen_3</background>
+    <background>background\news_screen_4</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -684,11 +691,14 @@
     <script>scripts\scr_attack.gml</script>
     <script>scripts\scr_char_number.gml</script>
     <script>scripts\scr_block.gml</script>
+    <script>scripts\scr_ability.gml</script>
     <script>scripts\scr_gotBlocked.gml</script>
     <script>scripts\scr_damage.gml</script>
+    <script>scripts\place_meeting_other.gml</script>
     <script>scripts\scr_blocked.gml</script>
     <script>scripts\scr_grab.gml</script>
     <script>scripts\scr_thrown.gml</script>
+    <script>scripts\scr_giveMeter.gml</script>
     <script>scripts\scr_vectorAdd.gml</script>
     <script>scripts\scr_avoid.gml</script>
     <script>scripts\scr_getSprite.gml</script>
@@ -774,7 +784,6 @@
       <object>objects\obj_ender</object>
       <object>objects\obj_spawn2</object>
       <object>objects\obj_player_offline</object>
-      <object>objects\obj_player2</object>
       <objects name="hurtboxes">
         <object>objects\obj_genHurtbox</object>
         <object>objects\obj_block</object>
@@ -800,6 +809,7 @@
     </objects>
     <objects name="menu">
       <objects name="main">
+        <object>objects\obj_intro</object>
         <object>objects\obj_logo</object>
         <object>objects\obj_play</object>
         <object>objects\obj_quit</object>
@@ -822,6 +832,15 @@
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_title</room>
+    <room>rooms\rm_intro</room>
+    <room>rooms\rm_game</room>
+    <room>rooms\rm_pipedreams</room>
+    <room>rooms\rm_charselect</room>
+    <room>rooms\rm_matchEnd</room>
+    <room>rooms\rm_stageselect</room>
+    <room>rooms\rm_level1</room>
+    <room>rooms\rm_join</room>
     <rooms name="htme_demo">
       <room>rooms\htme_rom_menu</room>
       <room>rooms\htme_rom_connecting</room>
@@ -832,14 +851,6 @@
       <room>rooms\rm_online_lobby</room>
       <room>rooms\rm_lan_lobby</room>
     </rooms>
-    <room>rooms\rm_title</room>
-    <room>rooms\rm_game</room>
-    <room>rooms\rm_pipedreams</room>
-    <room>rooms\rm_charselect</room>
-    <room>rooms\rm_matchEnd</room>
-    <room>rooms\rm_stageselect</room>
-    <room>rooms\rm_level1</room>
-    <room>rooms\rm_join</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

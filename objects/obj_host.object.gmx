@@ -25,10 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>i=0;
-go=0;
-went=0;
-image_speed=0;
+            <string>stop = 1200;
+
+image_speed = 0;
 </string>
           </argument>
         </arguments>
@@ -51,37 +50,113 @@ image_speed=0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(position_meeting(mouse_x, mouse_y, id)) {
-    image_index = 1;
+            <string>if(x != stop) {
+    move = floor(abs(x-stop)/10);
+    move_towards_point(stop,y,move);
+}
+
+//if (mouse_check_button_released(mb_left) &amp;&amp; !position_meeting(mouse_x, mouse_y, id)) {
+//    x = stop;
+//}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="11">
+      <action>
+        <libid>1</libid>
+        <id>541</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_sprite_set</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>5</kind>
+            <sprite>spr_host</sprite>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="10">
+      <action>
+        <libid>1</libid>
+        <id>541</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_sprite_set</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>5</kind>
+            <sprite>spr_host</sprite>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>1</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="7">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///START SERVER
+
+//Ask player for port
+var port = real(get_string("On which port should the server listen?","6510"));
+
+//Setup server, on success start game, on failure end the game.
+if (htme_serverStart(port,32)) {
+    //Set a server name and description. See chapter BONUS 1 in the manual.
+    //This is only relevant if you are using GMnet ENGINE version, otherwise you
+    //won't notice this
+    htme_setData(2,get_string("How should this server be called (for the lobbies)?","GMnet Demo Server"));
+    htme_setData(3,get_string("Enter a server description (for the lobbies)?","A server"));
+    htme_setData(4,string(port));
+    room_goto(rm_charselect);
 } else {
-    image_index = 0;
-}
-
-if (mouse_check_button_pressed(mb_left) &amp;&amp; position_meeting(mouse_x, mouse_y, id)) {
-    ///START SERVER
-    
-    //Ask player for port
-    var port = real(get_string("On which port should the server listen?","6510"));
-    
-    //Setup server, on success start game, on failure end the game.
-    if (htme_serverStart(port,2)) {
-        room_goto(rm_charselect);
-    } else {
-        show_message("Could not start server! Check your network configuration!");
-        game_end();
-    }
-}
-
-if(global.play &amp;&amp; !went) {
-    i = 30;
-    move = 45;
-    went++;
-}
-
-if(i&gt;0) {
-    x-=move;
-    move-=1.5;
-    i-=1;
+    htme_error_message_handler("Could not start server! Check your network configuration!");
+    game_end();
 }
 </string>
           </argument>

@@ -10,9 +10,10 @@ switch (self.playerChar) {
         hurtbox.startup = 16;
         hurtbox.player = id;
         hurtbox.ignore = hitbox;
+
+        hurtbox.disjointx = 0;
+        hurtbox.disjointy = 0;
         onCooldown = 1;
-        hurtbox.disjointx = 0
-        hurtbox.disjointy = 0
         alarm[0] = 60;      //attack cooldown
         alarm[1] = 29;      //attack animation duration
         return hurtbox;

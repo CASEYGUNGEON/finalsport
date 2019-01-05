@@ -71,6 +71,7 @@ if(!startup) {
         collisionID.throwdir = image_angle;
         caught = 1;
         caughtID = collisionID;
+        player.caughtID = caughtID.player;
     }
 }
 </string>
@@ -99,6 +100,7 @@ if(!startup) {
     caughtID.alarm[1] = 1;
 }
 player.grab = 0;
+player.caughtID = noone;
 instance_destroy();
 </string>
           </argument>

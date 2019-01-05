@@ -8,6 +8,40 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///INITIATE VARIABLES
+
+//randomize();
+
+global.playerChar = "none";
+global.networkJoin = 0;
+global.playerName = "player";
+global.selectdrawn = 0;
+global.connected = 0;
+global.player2Char = "none";
+global.player2Name = "player";
+global.hudcreated = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
@@ -25,17 +59,43 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>move_towards_point(512,y,(512-x)/8);
+            <string>///move to center
 
-if(mouse_check_button_released(mb_left) &amp;&amp; x!=512) {
-    x = 512;
+if(x != 512) {
+    move_towards_point(512,y,floor(abs(512-x)/10));
 }
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="7" enumb="4">
+    <event eventtype="6" enumb="56">
+      <action>
+        <libid>1</libid>
+        <id>611</id>
+        <kind>6</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>x</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>512</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="27">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -52,14 +112,15 @@ if(mouse_check_button_released(mb_left) &amp;&amp; x!=512) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.playerChar = "none";
-global.networkJoin = 0;
-global.playerName = "player";
-global.selectdrawn = 0;
-global.connected = 0;
-global.player2Char = "none";
-global.player2Name = "player";
-global.hudcreated = 0;
+            <string>if(global.play) {
+    global.play--;
+    obj_play.stop = 512;
+    obj_quit.stop = 512;
+    obj_host.stop = 1200;
+    obj_join.stop = 1200;
+} else {
+    game_end();
+}
 </string>
           </argument>
         </arguments>

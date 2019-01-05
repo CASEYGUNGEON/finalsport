@@ -8,6 +8,33 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>shakelen = 5;
+
+shake = 0;
+shakedir = -1;
+prevshakedir = -1;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="1">
       <action>
         <libid>1</libid>
@@ -36,6 +63,37 @@
     
     view_xview = -(view_wview/2) + x;
     view_yview = -(view_wview/2) + y;
+}
+
+if(shake) { //shake is started by scr_damage
+    if(obj_ender.alarm[0] == 0) {
+        shake = 0;
+        exit;
+    }
+    prevshakedir = shakedir;
+    shakedir = floor(random(360));
+    if(prevshakedir != -1) {
+        x -= lengthdir_x(shakelen,prevshakedir);
+        y -= lengthdir_y(shakelen,prevshakedir);
+        if((180 - abs(abs(shakedir - prevshakedir)) - 180) &gt; 112.5) { //if shake is too violent
+            shakedir = (shakedir + 180) % 360;
+        }
+    }
+    
+    x += lengthdir_x(shakelen,shakedir);
+    y += lengthdir_y(shakelen,shakedir);
+    shake--;
+    if(!shake) {
+        prevshakedir = -1;
+        shakedir = -1;
+        x = obj_player.x;
+        y = obj_player.y;
+    }
+    view_xview = -(view_wview/2) + x;
+    view_yview = -(view_wview/2) + y;
+    
+    x -= lengthdir_x(shakelen,shakedir);
+    y -= lengthdir_y(shakelen,shakedir);
 }
 </string>
           </argument>

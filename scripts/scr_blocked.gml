@@ -1,3 +1,5 @@
-self.blockeddir = point_direction(x,y,other.x,other.y);
-movex -= lengthdir_x(10,blockeddir);
-movey -= lengthdir_y(10,blockeddir);
+//run by player who blocked
+
+self.blockeddir = (dir + 180) % 360 //point_direction(other.x,other.y,x,y);
+movex += lengthdir_x(15,blockeddir);
+movey += lengthdir_y(15,blockeddir);

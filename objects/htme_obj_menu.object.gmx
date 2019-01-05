@@ -89,7 +89,7 @@ if (htme_serverStart(port,32)) {
     //This is only relevant if you are using GMnet ENGINE version, otherwise you
     //won't notice this
     htme_setData(2,get_string("How should this server be called (for the lobbies)?","GMnet Demo Server"));
-    htme_setData(3,get_string("Enter a server description (for the lobbies)?","A server created for the GMnet CORE/ENGINE demo project"));
+    htme_setData(3,get_string("Enter a server description (for the lobbies)?","A server"));
     htme_setData(4,string(port));
     room_goto(rm_charselect);
 } else {
