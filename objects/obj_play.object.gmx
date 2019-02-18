@@ -131,8 +131,8 @@ if(x != stop) {
             <string>global.play = 1;
 stop = -150;
 obj_quit.stop = -150;
-obj_host.stop = 512;
-obj_join.stop = 512;
+obj_story.stop = 512;
+obj_versus.stop = 512;
 </string>
           </argument>
         </arguments>

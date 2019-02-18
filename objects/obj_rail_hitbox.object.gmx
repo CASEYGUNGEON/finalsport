@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>grabbed = 0;
 grabInstance = 0;
-image_alpha = .5;
+image_alpha = global.testobjectalpha / 2;
 </string>
           </argument>
         </arguments>

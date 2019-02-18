@@ -39,8 +39,7 @@ mp_setType("attackType",mp_type.SMART);
 
 //CUSTOMIZABLE VARIABLES
 
-
-moveSpeed = 6;
+maxMoveSpeed = 6;
 scale = .75;
 animationSpeed = 1;
 ammo = 3;
@@ -59,15 +58,19 @@ if(!global.networkJoin) {
     x = obj_spawn1.x;
     y = obj_spawn1.y;
     htme_globalSet("remotehurthost",0,buffer_bool);
+    htme_globalSet("hostmeter",0,buffer_u8);
 } else {
     x = obj_spawn2.x;
     y = obj_spawn2.y;
     htme_globalSet("remotehurtclient",0,buffer_bool);
+    htme_globalSet("clientmeter",0,buffer_u8);
 }
 
 hitbox = instance_create(x,y,obj_rail_hitbox);
 hitbox.player = id;
+hitbox.isLocal = htme_isLocal();
 
+moveSpeed = maxMoveSpeed;
 image_speed = 0;
 lenx = 20;
 leny = 1;
@@ -99,6 +102,8 @@ blockeddir = 0;
 forcesync = 0;
 caughtID = noone;
 lastdir = 0;
+
+global.railability = 0;
 
 movex = 0;
 movey = 0;
@@ -132,9 +137,9 @@ motion_set(0,0)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>hurt = 0;
+            <string>///stop being hurt
+hurt = 0;
 image_alpha = 1;
-
 </string>
           </argument>
         </arguments>
@@ -284,48 +289,51 @@ self.dir = mp_map_syncOut("dir",self.dir);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(htme_isLocal()) {
+            <string>if(htme_isLocal() &amp;&amp; !global.gameFreeze) {
     self.pressed_up = keyboard_check(ord('W'));
     self.pressed_down = keyboard_check(ord('S'));
     self.pressed_left = keyboard_check(ord('A'));
     self.pressed_right = keyboard_check(ord('D'));
 
-    if(self.attackType != 7 &amp;&amp; self.attackType != 9) {
-        self.attackType = 0;
+    if(self.attackType != 6 &amp;&amp; self.attackType != 7 &amp;&amp; self.attackType != 9 || stunned) { //charge or block
+        self.attackType = 0; //nothing
     }
 
-    if(self.attackType != 9) {
+    if(self.attackType != 9 &amp;&amp; !grab) { //block
         if(mouse_check_button_pressed(mb_left)) {
-            self.attackType = 6;
+            self.attackType = 6; //charge
         } else {
-            if(mouse_check_button(mb_left)) {
-                self.attackType = 7;
+            if(self.attackType == 6 &amp;&amp; mouse_check_button(mb_left)) {
+                self.attackType = 7; //mid-charge
             }
         }
-        if(mouse_check_button_released(mb_left)) {
-            self.attackType = 8;
+        if(self.attackType == 7 &amp;&amp; mouse_check_button_released(mb_left)) {
+            self.attackType = 8; //attack
         }
     } else {
         if(keyboard_check_released(ord(' '))) {
-            self.attackType = 10;
+            self.attackType = 10; //stop blocking
         }
     }
     
-    if(!self.attackType) {
+    if(!self.attackType || self.attackType == 7) {
         if(mouse_button == mb_right) {
-            self.attackType = 12;
+            self.attackType = 12; //grab
+        }
+    }
+    
+    if(!self.attackType &amp;&amp; !grab &amp;&amp; !attack &amp;&amp; !stunned) {
+        if(keyboard_check_pressed(ord(' '))) {
+            self.attackType = 9; //block
         } else {
-            if(keyboard_check_pressed(ord(' '))) {
-                self.attackType = 9;
-            } else {
-                if(keyboard_check(ord('E')) &amp;&amp; self.meter == 1) {
-                    self.attackType = 11;
-                }
+            if(keyboard_check(ord('E')) &amp;&amp; self.meter == 100) {
+                self.attackType = 11; //ability
+                htme_syncGroupNow("attackType");
             }
         }
     }
 
-    if(global.networkJoin) {
+    if(global.networkJoin) { //if client, always block. for testing.
         self.attackType = 9;
     }
 
@@ -334,32 +342,41 @@ self.dir = mp_map_syncOut("dir",self.dir);
         lastdir = dir;
         self.dir = point_direction(x,y,mouse_x,mouse_y);
     }
-
-    if(!global.networkJoin &amp;&amp; htme_globalGet("remotehurtclient")) {
-        if(meter &lt; 100) {
-            meter += 20;
-        }
-    }
-    if(global.networkJoin &amp;&amp; htme_globalGet("remotehurthost")) {
-        if(meter &lt; 100) {
-            meter += 20;
-        }
+    if(!global.networkJoin) {
+        meter = htme_globalGet("hostmeter");
+    } else {
+        meter = htme_globalGet("clientmeter");
     }
     
 } else {
-    if(!global.networkJoin &amp;&amp; htme_globalGet("remotehurtclient")) {
-        htme_globalSet("remotehurtclient",0,buffer_bool);
-        hurt = 1;
-        hurtToggle = 1;
-        obj_camera.shake = 20;
-    } else {
-        if(global.networkJoin &amp;&amp; htme_globalGet("remotehurthost")) {
-            htme_globalSet("remotehurthost",0,buffer_bool);
+    if(!global.networkJoin) {
+        meter = htme_globalGet("clientmeter");
+        
+        if(htme_globalGet("remotehurtclient")) {
+            htme_globalSet("remotehurtclient",0,buffer_bool);
             hurt = 1;
             hurtToggle = 1;
             obj_camera.shake = 20;
+            audio_play_sound(snd_slap,51,false);
+        }
+    } else {
+        if(global.networkJoin) {
+        meter = htme_globalGet("hostmeter");
+        
+            if(htme_globalGet("remotehurthost")) {
+                htme_globalSet("remotehurthost",0,buffer_bool);
+                hurt = 1;
+                hurtToggle = 1;
+                obj_camera.shake = 20;
+                audio_play_sound(snd_slap,51,false);
+            }
         }
     }
+    if(global.railability) {
+        global.railx = x;
+        global.raily = y;
+    }
+
 }
 
 mp_map_syncIn("pressed_up",self.pressed_up);
@@ -402,21 +419,21 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     //point towards cursor
     
     if(!attack) {
-        if(self.dir &gt; 68 &amp;&amp; self.dir &lt;= 112){
+        if(self.dir &gt; 68 &amp;&amp; self.dir &lt;= 112) {
             facing = "up";
-        }else if(self.dir &gt; 113 &amp;&amp; self.dir &lt;= 157){
+        } else if(self.dir &gt; 113 &amp;&amp; self.dir &lt;= 157){
             facing = "upleft";
-        }else if(self.dir &gt; 158 &amp;&amp; self.dir &lt;= 202){
+        } else if(self.dir &gt; 158 &amp;&amp; self.dir &lt;= 202) {
             facing = "left";
-        }else if(self.dir &gt; 203 &amp;&amp; self.dir &lt;= 247){
+        } else if(self.dir &gt; 203 &amp;&amp; self.dir &lt;= 247) {
             facing = "downleft";
-        }else if(self.dir &gt; 248 &amp;&amp; self.dir &lt;= 292){
+        } else if(self.dir &gt; 248 &amp;&amp; self.dir &lt;= 292) {
             facing = "down";
-        }else if(self.dir &gt; 293 &amp;&amp; self.dir &lt;= 337){
+        } else if(self.dir &gt; 293 &amp;&amp; self.dir &lt;= 337) {
             facing = "downright";
-        }else if(self.dir &gt; 338 || self.dir &lt;= 21){
+        } else if(self.dir &gt; 338 || self.dir &lt;= 21) {
             facing = "right";
-        }else if(self.dir &gt; 22 &amp;&amp; self.dir &lt;= 67){
+        } else if(self.dir &gt; 22 &amp;&amp; self.dir &lt;= 67) {
             facing = "upright";
         }
     }
@@ -431,10 +448,17 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     forcesync = 0;
     
     
-    if(!place_meeting(x,y,obj_pipewall_antibox)) {
-        depth = -y + 9999;
-    } else {
+    if(!place_meeting(x,y,obj_top_pipes)) {
         depth = -y;
+    } else {
+        depth = obj_top_pipes.depth + 1000;
+    }
+    
+    if(moveSpeed &lt; maxMoveSpeed &amp;&amp; attackType != 7 &amp;&amp; attackType != 8) {
+        moveSpeed += .5;
+        if(moveSpeed &gt; maxMoveSpeed) {
+            moveSpeed = maxMoveSpeed;
+        }
     }
     
     if(self.pressed_up) {
@@ -464,6 +488,17 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     
     moveDir = point_direction(0,0,movex,movey);
     
+    railEffect = 0;
+    if(global.railability) {
+        railDir = point_direction(x,y,global.railx,global.raily);
+        if(abs(angle_difference(moveDir,railDir)) &gt; 90) {
+            railEffect = 1;
+            movex -= (stepx / 2);
+            movey -= (stepy / 2);
+        }
+    }
+    
+    
     if(instance_exists(hurtbox) &amp;&amp; (hurtbox.object_index == obj_grab) &amp;&amp; hurtbox.caught == 1) {
         movex = 0;
         movey = 0;
@@ -477,21 +512,29 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         scr_avoid(moveVectorLen,moveDir,obj_gen_enviro_hitbox);
     }
     if(abs(stepx) &amp;&amp; abs(movex)) {
-        movex -= stepx;
+        if(railEffect) {
+            movex -= stepx / 2;
+        } else {
+            movex -= stepx;
+        }
     }
     if(abs(stepy) &amp;&amp; abs(movey)) {
-        movey -= stepy;
+        if(railEffect) {
+            movey -= stepy / 2;
+        } else {
+            movey -= stepy;
+        }
     }
-    
-    movex -= sign(movex);
-    movey -= sign(movey);
-    
-    if(abs(movex) &lt; .5) {
+    if(abs(movex) &gt; 1) {
+        movex -= sign(movex);
+    } else {
         movex = 0;
         forcesync = 1;
     }
     
-    if(abs(movey) &lt; .5) {
+    if(abs(movey) &gt; 1) {
+        movey -= sign(movey);
+    } else {
         movey = 0;
         forcesync = 1;
     }
@@ -507,7 +550,6 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     
     
     moveVsMouse = 180 - abs(abs(moveDir - dir) - 180);
-    
     
     if(!charge) {
         image_speed = animationSpeed;
@@ -562,6 +604,12 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
                 image_speed = 0;
                 break;
             }
+            case 7: {     //mid-charge
+                if(moveSpeed &gt; 0) {
+                    moveSpeed -= 0.05;
+                }
+                break;
+            }
             case 8: {     //attack
                 charge = 0;
                 attack = 1;
@@ -571,6 +619,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
             }
             case 12: {    //grab
                 grab = 1;
+                charge = 0;
                 sprite_index = scr_getSprite(self.playerChar,facing,"grab");
                 hurtbox = scr_grab();
                 break;
@@ -598,7 +647,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     
         collisionID = instance_place(x,y,obj_knife);
         
-        if(collisionID != noone &amp;&amp; ammo &lt; 3) {
+        if(collisionID != noone &amp;&amp; ammo &lt; 3 &amp;&amp; !collisionID.returnattack) {
             if(collisionID.hit || collisionID.collided) {
                 ammo += 1;
                 instance_destroy(collisionID);
@@ -721,7 +770,9 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_text(x+40,y-40,string(self.meter));
+            <string>draw_set_alpha(1);
+draw_set_color(c_white);
+draw_text(x+40,y-40,string(meter));
 draw_self();
 </string>
           </argument>

@@ -185,7 +185,12 @@
     <extension index="2">extensions\Steamworks.gml</extension>
     <extension index="3">extensions\finalsport</extension>
   </NewExtensions>
-  <sounds name="sound"/>
+  <sounds name="sound">
+    <sound>sound\snd_knifecharge</sound>
+    <sound>sound\snd_swipe</sound>
+    <sound>sound\snd_slap</sound>
+    <sound>sound\snd_throw</sound>
+  </sounds>
   <sprites name="sprites">
     <sprites name="htme_demo">
       <sprite>sprites\htme_spr_wall</sprite>
@@ -201,6 +206,7 @@
       <sprite>sprites\spr_box_hitbox</sprite>
       <sprites name="pipedreams">
         <sprite>sprites\spr_pipe_wall</sprite>
+        <sprite>sprites\spr_top_pipes</sprite>
         <sprite>sprites\spr_pipe_antibox</sprite>
         <sprite>sprites\spr_pipe_wall_box</sprite>
       </sprites>
@@ -276,8 +282,10 @@
     <sprite>sprites\spr_spawn2</sprite>
     <sprite>sprites\spr_stars</sprite>
     <sprite>sprites\spr_punch</sprite>
+    <sprite>sprites\spr_glowknife</sprite>
     <sprite>sprites\hurtbox_rail</sprite>
     <sprite>sprites\spr_block</sprite>
+    <sprite>sprites\spr_readygo</sprite>
     <sprite>sprites\spr_game</sprite>
     <sprite>sprites\spr_grab</sprite>
     <sprites name="menu">
@@ -285,6 +293,8 @@
         <sprite>sprites\spr_logo</sprite>
         <sprite>sprites\spr_play</sprite>
         <sprite>sprites\spr_join</sprite>
+        <sprite>sprites\spr_versus</sprite>
+        <sprite>sprites\spr_story</sprite>
         <sprite>sprites\spr_host</sprite>
         <sprite>sprites\spr_quit</sprite>
         <sprite>sprites\spr_network</sprite>
@@ -296,6 +306,7 @@
         <sprite>sprites\spr_select</sprite>
         <sprite>sprites\spr_rock</sprite>
       </sprites>
+      <sprite>sprites\spr_fadeout</sprite>
       <sprite>sprites\spr_stageselect</sprite>
       <sprites name="match end">
         <sprite>sprites\spr_p2_end</sprite>
@@ -372,9 +383,20 @@
       <sprite>sprites\hira_left</sprite>
       <sprite>sprites\hira_downleft</sprite>
       <sprite>sprites\hira_down</sprite>
+      <sprite>sprites\hira_pink</sprite>
       <sprite>sprites\hira_downright</sprite>
       <sprite>sprites\hira_right</sprite>
       <sprite>sprites\hira_upright</sprite>
+      <sprites name="hira attack">
+        <sprite>sprites\hira_up_att</sprite>
+        <sprite>sprites\hira_upleft_att</sprite>
+        <sprite>sprites\hira_left_att</sprite>
+        <sprite>sprites\hira_downleft_att</sprite>
+        <sprite>sprites\hira_down_att</sprite>
+        <sprite>sprites\hira_downright_att</sprite>
+        <sprite>sprites\hira_right_att</sprite>
+        <sprite>sprites\hira_upright_att</sprite>
+      </sprites>
       <sprites name="hira move">
         <sprite>sprites\hira_left_move</sprite>
         <sprite>sprites\hira_down_move</sprite>
@@ -386,7 +408,15 @@
         <sprite>sprites\hira_downright_move</sprite>
       </sprites>
       <sprites name="hira backward">
+        <sprites name="placeholder">
+          <sprite>sprites\hira_upright_backward</sprite>
+          <sprite>sprites\hira_downleft_backward</sprite>
+          <sprite>sprites\hira_upleft_backward</sprite>
+          <sprite>sprites\hira_downright_backward</sprite>
+          <sprite>sprites\hira_up_backward</sprite>
+        </sprites>
         <sprite>sprites\hira_left_backward</sprite>
+        <sprite>sprites\hira_right_backward</sprite>
         <sprite>sprites\hira_down_backward</sprite>
       </sprites>
     </sprites>
@@ -694,6 +724,7 @@
     <script>scripts\scr_ability.gml</script>
     <script>scripts\scr_gotBlocked.gml</script>
     <script>scripts\scr_damage.gml</script>
+    <script>scripts\scr_fadeout.gml</script>
     <script>scripts\place_meeting_other.gml</script>
     <script>scripts\scr_blocked.gml</script>
     <script>scripts\scr_grab.gml</script>
@@ -779,9 +810,7 @@
     <objects name="player">
       <object>objects\obj_player</object>
       <object>objects\obj_spawn1</object>
-      <object>objects\obj_charhud</object>
       <object>objects\obj_dead</object>
-      <object>objects\obj_ender</object>
       <object>objects\obj_spawn2</object>
       <object>objects\obj_player_offline</object>
       <objects name="hurtboxes">
@@ -804,14 +833,20 @@
       <objects name="pipedreams">
         <object>objects\obj_pipewall_antibox</object>
         <object>objects\obj_pipewall</object>
+        <object>objects\obj_top_pipes</object>
         <object>objects\obj_pipewall_hitbox</object>
       </objects>
     </objects>
+    <object>objects\obj_readygo</object>
+    <object>objects\obj_charhud</object>
+    <object>objects\obj_ender</object>
     <objects name="menu">
       <objects name="main">
         <object>objects\obj_intro</object>
         <object>objects\obj_logo</object>
         <object>objects\obj_play</object>
+        <object>objects\obj_versus</object>
+        <object>objects\obj_story</object>
         <object>objects\obj_quit</object>
         <object>objects\obj_host</object>
         <object>objects\obj_join</object>
@@ -825,6 +860,7 @@
         <object>objects\obj_end_select</object>
         <object>objects\obj_ranking</object>
       </objects>
+      <object>objects\obj_fade</object>
       <object>objects\obj_stageselect</object>
     </objects>
     <objects name="cameratesting">
@@ -836,6 +872,7 @@
     <room>rooms\rm_intro</room>
     <room>rooms\rm_game</room>
     <room>rooms\rm_pipedreams</room>
+    <room>rooms\rm_storyroom1</room>
     <room>rooms\rm_charselect</room>
     <room>rooms\rm_matchEnd</room>
     <room>rooms\rm_stageselect</room>

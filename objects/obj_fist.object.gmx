@@ -59,7 +59,7 @@ if(startup) {
     image_alpha = 0;
 } else {
     image_speed = 1;
-    image_alpha = 1;
+    image_alpha = global.testobjectalpha;
 }
 
 
@@ -69,9 +69,6 @@ if(!startup &amp;&amp; !damaged) {
         with (collisionID) {
             scr_damage();
         }
-        //with (player) {
-        //    scr_giveMeter();
-        //}
         damaged = 1;
     }
 }

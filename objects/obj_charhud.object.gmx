@@ -27,12 +27,15 @@
             <kind>1</kind>
             <string>image_speed = 0;
 gameEnding = 0;
+meter = 0;
 
 if(!global.hudcreated) {
     global.hudcreated = 1;
     
     htme_globalSet("hostLives",3,buffer_u8);
     htme_globalSet("clientLives",3,buffer_u8);
+    htme_globalSet("hostmeter",0,buffer_u8);
+    htme_globalSet("clientmeter",0,buffer_u8);
     
     player = 0;
     image_index = 0;
@@ -104,15 +107,19 @@ if(!player) { //if left HUD element
     self.lifecount = htme_globalGet("hostLives");
     if(!global.networkJoin) { //if host
         self.playerName = global.playerName;
+        meter = htme_globalGet("hostmeter");
     } else {
         self.playerName = global.player2Name;
+        meter = htme_globalGet("hostmeter");
     }
 } else { //if right element
     self.lifecount = htme_globalGet("clientLives");
     if(global.networkJoin) { //if not host
         self.playerName = global.playerName;
+        meter = htme_globalGet("clientmeter");
     } else {
         self.playerName = global.player2Name;
+        meter = htme_globalGet("clientmeter");
     }
 }
 
@@ -128,7 +135,9 @@ for(i=0;i&lt;self.lifecount;i++) {
     lifex += 18;
 }
 
-draw_text(gui_x-36,gui_y-30,self.playerName);
+draw_text(gui_x,gui_y,self.playerName);
+
+draw_healthbar(gui_x-50,gui_y+30,gui_x+50,gui_y+50,meter,c_black,c_red,c_green,0,true,false);
 </string>
           </argument>
         </arguments>
