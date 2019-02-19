@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_alpha = global.testobjectalpha
+            <string>image_alpha = global.testobjectalpha;
 </string>
           </argument>
         </arguments>
