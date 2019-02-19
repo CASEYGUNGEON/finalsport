@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -132,15 +132,38 @@ mp_map_syncIn("playerName",self.playerName);
             <kind>1</kind>
             <string>if(htme_isLocal()) {
     var i_d = async_load[? "id"];
-    if (i_d == msg) {
-        if (async_load[? "status"]) {
-           if (async_load[? "result"] != "") {
-              self.playerName = async_load[? "result"];
+    if (i_d == self.msg) {
+        if (ds_map_find_value(async_load, "status")) {
+            if (ds_map_find_value(async_load, "result") != "") {
+              self.playerName = ds_map_find_value(async_load, "result");
+              global.playerName = self.playerName;
            }
         }
     }
 }
 </string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="5">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string></string>
           </argument>
         </arguments>
       </action>
@@ -166,19 +189,16 @@ mp_map_syncIn("playerName",self.playerName);
     self.playerChar = global.playerChar;
 }
 
-draw_self();
-
-draw_text(x+69,y-60,self.playerName);
-
-switch (self.playerChar) {
-    case "rail": {
-        draw_sprite(spr_selectedchar,1,x,y);
-        break;
+if(room == rm_charselect) {
+    draw_self();
+    
+    draw_text(x+69,y-60,self.playerName);
+    if(self.playerChar != "none") {
+        charNumber = scr_char_number(self.playerChar) + 1;
+    } else {
+        charNumber = 0;
     }
-    default: {
-    draw_sprite(spr_selectedchar,0,x,y);
-        break;
-    }
+    draw_sprite(spr_selectedchar,charNumber,x,y);
 }
 </string>
           </argument>

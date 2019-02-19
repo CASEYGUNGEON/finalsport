@@ -25,9 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>hurt = 0;
-grabbed = 0;
+            <string>grabbed = 0;
 grabInstance = 0;
+image_alpha = global.testobjectalpha / 2;
 </string>
           </argument>
         </arguments>
@@ -54,32 +54,6 @@ grabInstance = 0;
 player.thrown = 1;
 player.throwdir = throwdir;
 </string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>611</id>
-        <kind>6</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>hurt</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
           </argument>
         </arguments>
       </action>

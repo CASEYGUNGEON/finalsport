@@ -27,6 +27,15 @@
             <kind>1</kind>
             <string>///Enable debug overlay
 show_debug_overlay(true);
+
+global.playerChar = "none";
+global.networkJoin = 0;
+global.playerName = "player";
+global.selectdrawn = 0;
+global.connected = 0;
+global.player2Char = "none";
+global.player2Name = "player";
+global.hudcreated = 0;
 </string>
           </argument>
         </arguments>
@@ -80,10 +89,11 @@ if (htme_serverStart(port,32)) {
     //This is only relevant if you are using GMnet ENGINE version, otherwise you
     //won't notice this
     htme_setData(2,get_string("How should this server be called (for the lobbies)?","GMnet Demo Server"));
-    htme_setData(3,get_string("Enter a server description (for the lobbies)?","A server created for the GMnet CORE/ENGINE demo project"));
-    room_goto(htme_rom_demo);
+    htme_setData(3,get_string("Enter a server description (for the lobbies)?","A server"));
+    htme_setData(4,string(port));
+    room_goto(rm_charselect);
 } else {
-    show_message("Could not start server! Check your network configuration!");
+    htme_error_message_handler("Could not start server! Check your network configuration!");
     game_end();
 }
 </string>
@@ -109,14 +119,13 @@ if (htme_serverStart(port,32)) {
           <argument>
             <kind>1</kind>
             <string>///GOTO LOBBY
-if (!obj_htme.use_udphp) {
-   show_message("You need to have GMnet PUNCH enabled in htme_init (use_udphp)!#(And have GMnet ENGINE or GMnet PUNCH)");
-} else {
-  if (room_exists(asset_get_index("udphhtme_lobby"))) {
-     room_goto(asset_get_index("udphhtme_lobby"));
-  } else {
-   show_message("GMnet PUNCH is NOT INSTALLED (or the lobby room is missing)!#(Do you have GMnet ENGINE or GMnet CORE with GMnet PUNCH installed? Make sure you imported the room udphhtme_lobby. See the first chapter of the tutorial ('Adding the engine to a project') for help!)"); 
-  }
+if obj_htme.use_udphp
+{
+    room_goto(rm_online_lobby);
+}
+else
+{
+    show_message("Create a mediation server and set htme_config&gt;use_udphp = true");
 }
 </string>
           </argument>
@@ -141,7 +150,7 @@ if (!obj_htme.use_udphp) {
           <argument>
             <kind>1</kind>
             <string>///GOTO LAN LOBBY
-room_goto(htme_lanlobby);
+room_goto(rm_lan_lobby);
 </string>
           </argument>
         </arguments>
@@ -193,9 +202,10 @@ var port = real(get_string("And on which port is the server running?","6510"));
 //Setup client, on success go to waiting room, otherwise end game
 if (htme_clientStart(ip, port)) {
     //Wait for connection success!
+    global.networkJoin = 1;
     room_goto(htme_rom_connecting);
 } else {
-    show_message("Could not start client! Check your network configuration!");
+    htme_error_message_handler("Could not start client! Check your network configuration!");
     game_end();
 }
 </string>
@@ -221,18 +231,21 @@ if (htme_clientStart(ip, port)) {
           <argument>
             <kind>1</kind>
             <string>///Draw greeting text.
+draw_set_font(font0);
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
 var text1 = "
 Hello and welcome!#
-Thanks for choosing GMnet ENGINE.#
-This demo will show you some of what GMnet ENGINE is capable of.#
-This project is also explained step by step in the manual at#
-gmnet.parakoopa.de##
+sample text lol#
+im just putting things here because i can#
+insert dick joke here#
+www.website.com##
 Controls:#
-Arrow keys: Move#
-Up: Enter doors#
-Space: Jump#
-C: Chat#
-Have fun!##
+WASD: Move#
+LClick: Attack#
+RClick: Grab#
+C: Nothing#
+im gay##
 ";
 var text2 = "
 Press N to create a new server.
@@ -250,12 +263,16 @@ draw_sprite(htme_logo,0,20,20);
 draw_text(20,120,text1);
 draw_set_colour(c_red);
 draw_text(300,400,text2);
+if point_in_rectangle(mouse_x,mouse_y,300,400,400,430) and mouse_check_button_pressed(mb_left) event_perform(ev_keyboard,ord('N'));
 draw_set_colour(c_yellow);
 draw_text(300,440,text3);
+if point_in_rectangle(mouse_x,mouse_y,300,440,400,470) and mouse_check_button_pressed(mb_left) event_perform(ev_keyboard,ord('B'));
 draw_set_colour(c_fuchsia);
 draw_text(300,480,text4);
+if point_in_rectangle(mouse_x,mouse_y,300,480,400,510) and mouse_check_button_pressed(mb_left) event_perform(ev_keyboard,ord('K'));
 draw_set_colour(c_aqua);
 draw_text(300,520,text5);
+if point_in_rectangle(mouse_x,mouse_y,300,520,400,550) and mouse_check_button_pressed(mb_left) event_perform(ev_keyboard,ord('L'));
 draw_set_colour(c_white);
 </string>
           </argument>

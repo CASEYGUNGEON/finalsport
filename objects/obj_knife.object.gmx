@@ -29,12 +29,20 @@
 hit = 0;
 image_speed = 0;
 spin = irandom(5) + 2;
+caught = 0;
+returnattack = 0;
+glowalpha = 0;
+shoot = 0;
+shootvis = 0;
+shootalpha = 1;
+shootx = 0;
+shooty = 0;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="2" enumb="1">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -51,41 +59,177 @@ spin = irandom(5) + 2;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(!hit &amp;&amp; !collided) {
-    x += movex;
-    y += movey;
-}
+            <string>player.ammo += 1;
+instance_destroy();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///RETURN ATTACK
 
-collisionID = instance_place(x,y,obj_gen_hitbox)
-
-if(collisionID != noone &amp;&amp; !collided &amp;&amp; !hit) {
-    hit = 1;
-    collisionID.hurt = 1;
-    collisionID.alarm[0] = 10;
-}
-
-while(place_meeting(x,y,obj_gen_enviro_hitbox) &amp;&amp; !hit &amp;&amp; !collided) {
-    collided = 1;
-    x -= movex / 8;
-    y -= movey / 8;
-}
-
-if (collided) {
-    if (image_xscale + image_yscale &gt; .80) {
-        image_xscale -= .05;
-        image_yscale -= .05;
+collisionID = collision_line(x,y,shootx,shooty,obj_gen_hitbox,0,0)
+if(collisionID != noone &amp;&amp; collisionID != ignore) {
+    with(collisionID) {
+        scr_damage();
     }
-    if (image_index &lt; spin) {
-        image_speed = .5;
+}
+alarm[1] = room_speed / 4;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(!returnattack) {
+    if(!hit &amp;&amp; !collided) {
+        x += movex;
+        y += movey;
+    }
+    collisionID = noone;
+    collisionID = instance_place(x,y,obj_block);
+
+    if(collisionID != noone &amp;&amp; !collided &amp;&amp; !hit) {
+        hit = 1;
+        with(player) {
+            if(!htme_isLocal()) {
+                if(!global.networkJoin) {
+                    scr_giveMeter(1,20);
+                } else {
+                    scr_giveMeter(0,20);
+                }
+            }
+        }
+    }
+    if(collisionID == noone) {
+        collisionID = instance_place(x,y,obj_gen_hitbox);
+        
+        if(collisionID != noone &amp;&amp; collisionID != ignore &amp;&amp; !collided &amp;&amp; !hit) {
+            hit = 1;
+            with(collisionID) {
+                scr_damage();
+            }
+        }
+    }
+
+    while(place_meeting(x,y,obj_gen_enviro_hitbox) &amp;&amp; !hit &amp;&amp; !collided) {
+        collided = 1;
+        x -= movex / 8;
+        y -= movey / 8;
+    }
+
+    if (collided) {
+        if (image_xscale + image_yscale &gt; .80) {
+            image_xscale -= .05;
+            image_yscale -= .05;
+        }
+        
+        if (image_index &lt; spin) {
+            image_speed = .5;
+        } else {
+            image_speed = 0;
+        }
+    }
+
+    if (hit) {
+        if (image_xscale + image_yscale &gt; .80) {
+            image_xscale -= .05;
+            image_yscale -= .05;
+        }
+    }
+} else {
+    if(shootvis == 1) {
+        shootalpha -= 1 / room_speed;
+        draw_set_alpha(shootalpha);
+        if(!shootalpha) {
+            shootvis = 0;
+        }
+    }
+    if(shoot == 1) {
+        collisionID = collision_line(x,y,shootx,shooty,obj_gen_hitbox,false,true);
+        if(collisionID != noone &amp;&amp; collisionID != ignore) {
+            with(collisionID) {
+                scr_damage();
+            }
+        }
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(!shoot) {
+    draw_self();
+}
+if(ceil(glowalpha) &amp;&amp; image_alpha) {
+    draw_sprite_ext(spr_glowknife,image_index,x,y,image_xscale,image_yscale,image_angle,c_white,glowalpha);
+    if(glowalpha &lt; 1) {
+        glowalpha += 1 / room_speed;
     } else {
-        image_speed = 0;
+        shootx = player.x;
+        shooty = player.y;
+        shoot = 1;
+        shootvis = 1;
+        glowalpha = 0;
+        shootalpha = 1;
+        draw_set_alpha(shootalpha);
+        alarm[0] = 1;
     }
-}
-
-if (hit) {
-    if (image_xscale + image_yscale &gt; .80) {
-        image_xscale -= .05;
-        image_yscale -= .05;
+} else {
+    if(shoot) {
+        draw_set_colour(c_aqua);
+        draw_line_width(x,y,shootx,shooty,4);
     }
 }
 </string>

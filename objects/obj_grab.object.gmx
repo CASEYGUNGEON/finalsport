@@ -48,8 +48,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>x = player.x + lengthdir_x(80,player.dir);
-y = player.y + lengthdir_y(80,player.dir);
+            <string>x = player.x + lengthdir_x(disjoint,image_angle);
+y = player.y + lengthdir_y(disjoint,image_angle);
 
 if(startup) {
     startup--;
@@ -65,12 +65,13 @@ if(startup) {
 
 if(!startup) {
     collisionID = instance_place(x,y,obj_gen_hitbox);
-    if(collisionID != noone) {
+    if(collisionID != noone &amp;&amp; collisionID != ignore) {
         collisionID.grabbed = 1 // (collision_line(x,y,collisionID.x,collisionID.y,obj_gen_enviro_hitbox,true,true) == noone);
         collisionID.grabInstance = id;
         collisionID.throwdir = image_angle;
         caught = 1;
         caughtID = collisionID;
+        player.caughtID = caughtID.player;
     }
 }
 </string>
@@ -99,6 +100,7 @@ if(!startup) {
     caughtID.alarm[1] = 1;
 }
 player.grab = 0;
+player.caughtID = noone;
 instance_destroy();
 </string>
           </argument>

@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>instance_create(x,y,obj_pipewall_hitbox);
 instance_create(x,y,obj_pipewall_antibox);
-depth = 0;
+instance_create(x,y,obj_top_pipes);
 </string>
           </argument>
         </arguments>
