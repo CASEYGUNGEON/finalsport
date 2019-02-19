@@ -28,7 +28,6 @@
             <string>instance_create(x,y,obj_pipewall_hitbox);
 instance_create(x,y,obj_pipewall_antibox);
 instance_create(x,y,obj_top_pipes);
-depth = 1;
 </string>
           </argument>
         </arguments>

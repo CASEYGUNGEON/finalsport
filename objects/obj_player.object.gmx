@@ -446,13 +446,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     stepx = 0;
     stepy = 0;
     forcesync = 0;
-    
-    
-    if(!place_meeting(x,y,obj_top_pipes)) {
-        depth = -y;
-    } else {
-        depth = obj_top_pipes.depth + 1000;
-    }
+
     
     if(moveSpeed &lt; maxMoveSpeed &amp;&amp; attackType != 7 &amp;&amp; attackType != 8) {
         moveSpeed += .5;
@@ -545,9 +539,13 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     
     
     //visual
+        
     
-    depth = -y;
-    
+    if(place_meeting(x,y,obj_pipewall) &amp;&amp; place_meeting(x,y,obj_pipewall_antibox)) {
+        depth = 9999 - y;
+    } else {
+        depth = -y;
+    }
     
     moveVsMouse = 180 - abs(abs(moveDir - dir) - 180);
     
@@ -605,7 +603,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
                 break;
             }
             case 7: {     //mid-charge
-                if(moveSpeed &gt; 0) {
+                if(self.playerChar != "rail" &amp;&amp; moveSpeed &gt; 0) {
                     moveSpeed -= 0.05;
                 }
                 break;
@@ -748,32 +746,6 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
           <argument>
             <kind>1</kind>
             <string>mp_unsync();
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>draw_set_alpha(1);
-draw_set_color(c_white);
-draw_text(x+40,y-40,string(meter));
-draw_self();
 </string>
           </argument>
         </arguments>
