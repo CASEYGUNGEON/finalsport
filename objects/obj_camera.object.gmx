@@ -27,6 +27,13 @@
             <kind>1</kind>
             <string>shakelen = 5;
 
+x = obj_player.x;
+y = obj_player.y;
+
+view_xview = -(view_wview/2) + x;
+view_yview = -(view_hview/2) + y;
+
+
 shake = 0;
 shakedir = -1;
 prevshakedir = -1;
@@ -52,7 +59,7 @@ prevshakedir = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(!obj_player.alarm[3]) {
+            <string>if(!obj_player.alarm[3] &amp;&amp; !global.gameFreeze) {
     var xTo,yTo;
     move_towards_point(mouse_x,mouse_y,0);
     xTo = obj_player.x + lengthdir_x(min(16,distance_to_point(mouse_x,mouse_y)),direction);
@@ -62,7 +69,7 @@ prevshakedir = -1;
     y += (yTo-y)/20;
     
     view_xview = -(view_wview/2) + x;
-    view_yview = -(view_wview/2) + y;
+    view_yview = -(view_hview/2) + y;
 }
 
 if(shake) { //shake is started by scr_damage
@@ -90,7 +97,7 @@ if(shake) { //shake is started by scr_damage
         y = obj_player.y;
     }
     view_xview = -(view_wview/2) + x;
-    view_yview = -(view_wview/2) + y;
+    view_yview = -(view_hview/2) + y;
     
     x -= lengthdir_x(shakelen,shakedir);
     y -= lengthdir_y(shakelen,shakedir);

@@ -113,8 +113,6 @@ pressed_up = 0;
 pressed_down = 0;
 pressed_left = 0;
 pressed_right = 0;
-
-motion_set(0,0)
 </string>
           </argument>
         </arguments>
@@ -410,7 +408,7 @@ mp_map_syncIn("dir",self.dir);
             <string>image_blend = -1;
 
 if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
-    
+
 
     if(grab &amp;&amp; place_meeting_other(caughtID,x+lengthdir_x(hurtbox.disjoint,dir),y+lengthdir_y(hurtbox.disjoint,dir),obj_gen_enviro_hitbox)) {
         dir = lastdir;

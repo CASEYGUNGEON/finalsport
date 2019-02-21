@@ -870,9 +870,9 @@
   <rooms name="rooms">
     <room>rooms\rm_title</room>
     <room>rooms\rm_intro</room>
-    <room>rooms\rm_game</room>
     <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_storyroom1</room>
+    <room>rooms\rm_game</room>
     <room>rooms\rm_charselect</room>
     <room>rooms\rm_matchEnd</room>
     <room>rooms\rm_stageselect</room>

@@ -75,6 +75,7 @@
             <kind>1</kind>
             <string>if(htme_isServer() &amp;&amp; mouse_check_button_pressed(mb_left) &amp;&amp; position_meeting(mouse_x, mouse_y, id)) {
     htme_globalSet("toGame",1,buffer_bool);
+    
 }
 </string>
           </argument>
