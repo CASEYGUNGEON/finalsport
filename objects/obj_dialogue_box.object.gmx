@@ -29,6 +29,9 @@
 yscaleTarget = (view_hview / 6) / 249;
 scaled = 0;
 
+stringTarget = "";
+stringCurrent = "";
+
 image_xscale = 0;
 image_yscale = 0;
 </string>
@@ -62,7 +65,18 @@ if(scaled &lt; 20) {
     scaled++;
 } else {
     if(image_xscale != 0) {
-        if(scaled &gt; 20) {
+        if(scaled == 20) {
+            if(stringTarget != "") {
+                if(stringCurrent != stringTarget) {
+                    draw_set_halign(fa_center);
+                    draw_set_valign(fa_middle);
+                    stringCurrent = string_insert(string_char_at(stringTarget,string_length(stringCurrent) + 1),stringCurrent,string_length(stringCurrent) + 1);
+                }
+                draw_text(x,y,stringCurrent);
+            } else {
+                stringCurrent = "";
+            }
+        } else {
             image_xscale -= xscaleTarget / 20;
             image_yscale -= yscaleTarget / 20;
         }
@@ -70,6 +84,8 @@ if(scaled &lt; 20) {
         instance_destroy();
     }
 }
+
+
 </string>
           </argument>
         </arguments>
