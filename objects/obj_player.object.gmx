@@ -551,6 +551,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         image_speed = animationSpeed;
     }
     
+        //determine player state and set appropriate sprite
     if(grab) {
         sprite_index = scr_getSprite(self.playerChar,facing,"grab");
     } else {
@@ -560,12 +561,12 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
                 image_speed = 0;
             }
         } else {
-            if(abs(stepx) + abs(stepy) &gt; 0) {     //change to movement sprites if moving
+            if(abs(stepx) + abs(stepy) &gt; 0) {     //if moving
                 if(!attack &amp;&amp; !charge) {
                     if(sprite_index = scr_getSprite(self.playerChar,facing)) {
                         image_index = 0;
                     }
-                    if(moveVsMouse &lt;= 112.5) {
+                    if(moveVsMouse &lt;= 112.5) { //if moving towards mouse
                         sprite_index = scr_getSprite(self.playerChar,facing,"move")
                     } else {
                         if(moveVsMouse &gt; 112.5 &amp;&amp; !attack) {

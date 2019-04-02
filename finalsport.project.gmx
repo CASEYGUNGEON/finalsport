@@ -427,6 +427,7 @@
     </sprites>
     <sprite>sprites\spr_cloud</sprite>
     <sprite>sprites\spr_smokey</sprite>
+    <sprite>sprites\spr_dialogue_box</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background0</background>
@@ -738,6 +739,7 @@
     <font>fonts\font0</font>
   </fonts>
   <objects name="objects">
+    <object>objects\obj_dialogue_box</object>
     <objects name="htme_demo">
       <objects name="menu">
         <object>objects\htme_obj_menu</object>

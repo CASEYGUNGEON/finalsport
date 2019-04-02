@@ -29,9 +29,9 @@
 
 //randomize();
 
+testdialoguebox = noone;
+
 global.testobjectalpha = 0;
-
-
 
 global.playerChar = "none";
 global.networkJoin = 0;
@@ -68,6 +68,33 @@ global.gameFreeze = 1;
 
 if(x != 512) {
     move_towards_point(512,y,floor(abs(512-x)/10));
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="5" enumb="32">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(!instance_exists(obj_dialogue_box)) {
+    testdialoguebox = instance_create(x,y,obj_dialogue_box);
+} else {
+    testdialoguebox.scaled++;
 }
 </string>
           </argument>
