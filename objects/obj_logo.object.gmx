@@ -41,9 +41,6 @@ global.player2Name = "player";
 global.hudcreated = 0;
 global.gameFreeze = 0;
 global.dialogueBox = noone;
-
-scr_createDialogue("haha lol");
-scr_addDialogue(" you just got owned", "and you dont even know it");
 </string>
           </argument>
         </arguments>
