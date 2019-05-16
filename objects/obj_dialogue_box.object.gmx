@@ -25,15 +25,47 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>xscaleTarget = (view_wview - view_wview / 16) / 468;
+            <string>///freeze game, initialize local variables
+
+global.gameFreeze = 1;
+
+xscaleTarget = (view_wview - view_wview / 16) / 468;
 yscaleTarget = (view_hview / 6) / 249;
 scaled = 0;
 
-stringTarget = "";
+//stringList &amp; stringTarget defined by scr_createDialogue()
+
 stringCurrent = "";
+stringNum = 0;
 
 image_xscale = 0;
 image_yscale = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="1" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///unfreeze game, remove global.dialogueBox
+
+global.dialogueBox = noone;
+global.gameFreeze = 0;
 </string>
           </argument>
         </arguments>
@@ -59,33 +91,81 @@ image_yscale = 0;
             <string>x = view_wview / 2;
 y = view_hview - view_hview / 12 - view_hview / 16
 
-if(scaled &lt; 20) {
+if(scaled &lt; 20)
+{
     image_xscale += xscaleTarget / 20;
     image_yscale += yscaleTarget / 20;
     scaled++;
-} else {
-    if(image_xscale != 0) {
-        if(scaled == 20) {
-            if(stringTarget != "") {
-                if(stringCurrent != stringTarget) {
+}
+else
+{
+    if(image_xscale != 0) 
+    {
+        if(scaled == 20)
+        {
+            if(stringTarget != "")
+            {
+                if(stringCurrent != stringTarget)
+                {
                     draw_set_halign(fa_center);
                     draw_set_valign(fa_middle);
                     stringCurrent = string_insert(string_char_at(stringTarget,string_length(stringCurrent) + 1),stringCurrent,string_length(stringCurrent) + 1);
                 }
                 draw_text(x,y,stringCurrent);
-            } else {
+            }
+            else
+            {
                 stringCurrent = "";
             }
-        } else {
+        }
+        else
+        {
             image_xscale -= xscaleTarget / 20;
             image_yscale -= yscaleTarget / 20;
         }
-    } else {
+    }
+    else
+    {
         instance_destroy();
     }
 }
 
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="10" enumb="32">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(scaled == 20 &amp;&amp; stringCurrent == stringTarget)
+{
+    stringNum++;
+    if(stringNum &lt; ds_list_size(stringList))
+    {
+        stringTarget = ds_list_find_value(stringList,stringNum);
+        stringCurrent = "";
+    }
+    else
+    {
+        scaled++;
+    }
+}
 </string>
           </argument>
         </arguments>

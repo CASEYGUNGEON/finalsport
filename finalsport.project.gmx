@@ -725,6 +725,9 @@
     <script>scripts\scr_ability.gml</script>
     <script>scripts\scr_gotBlocked.gml</script>
     <script>scripts\scr_damage.gml</script>
+    <script>scripts\scr_addDialogue.gml</script>
+    <script>scripts\scr_createDialogue.gml</script>
+    <script>scripts\scr_destroyDialogue.gml</script>
     <script>scripts\scr_fadeout.gml</script>
     <script>scripts\place_meeting_other.gml</script>
     <script>scripts\scr_blocked.gml</script>
