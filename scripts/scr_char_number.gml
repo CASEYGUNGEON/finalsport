@@ -1,3 +1,6 @@
+//used to determine sprite index for character select
+//objs: charhud, charselect
+
 switch(argument0) {
     case "rail":
         return 0;

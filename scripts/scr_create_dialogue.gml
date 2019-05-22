@@ -1,4 +1,4 @@
-///scr_createDialogue([optional: string, string, etc.])
+///scr_create_dialogue([optional: string, string, etc.])
 
 global.dialogueBox = instance_create(0,0,obj_dialogue_box);
 

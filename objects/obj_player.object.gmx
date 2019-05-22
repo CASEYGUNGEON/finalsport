@@ -210,7 +210,7 @@ image_alpha = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>sprite_index = scr_getSprite(self.playerChar,facing);
+            <string>sprite_index = scr_get_sprite(self.playerChar,facing);
 </string>
           </argument>
         </arguments>
@@ -553,31 +553,31 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
     
         //determine player state and set appropriate sprite
     if(grab) {
-        sprite_index = scr_getSprite(self.playerChar,facing,"grab");
+        sprite_index = scr_get_sprite(self.playerChar,facing,"grab");
     } else {
         if(block) {
-            sprite_index = scr_getSprite(self.playerChar,facing,"block");
+            sprite_index = scr_get_sprite(self.playerChar,facing,"block");
             if(image_index &gt; 2) {
                 image_speed = 0;
             }
         } else {
             if(abs(stepx) + abs(stepy) &gt; 0) {     //if moving
                 if(!attack &amp;&amp; !charge) {
-                    if(sprite_index = scr_getSprite(self.playerChar,facing)) {
+                    if(sprite_index = scr_get_sprite(self.playerChar,facing)) {
                         image_index = 0;
                     }
                     if(moveVsMouse &lt;= 112.5) { //if moving towards mouse
-                        sprite_index = scr_getSprite(self.playerChar,facing,"move")
+                        sprite_index = scr_get_sprite(self.playerChar,facing,"move")
                     } else {
                         if(moveVsMouse &gt; 112.5 &amp;&amp; !attack) {
-                            sprite_index = scr_getSprite(self.playerChar,facing,"backward")
+                            sprite_index = scr_get_sprite(self.playerChar,facing,"backward")
                         }
                     }
                 }
             } else {
                 if(!attack &amp;&amp; !charge) {          //change to idle sprites if not moving
-                    sprite_index = scr_getSprite(self.playerChar,facing);
-                    if(sprite_index = scr_getSprite(self.playerChar,facing,"attack")) {
+                    sprite_index = scr_get_sprite(self.playerChar,facing);
+                    if(sprite_index = scr_get_sprite(self.playerChar,facing,"attack")) {
                         image_index = 0;
                     }
                 }
@@ -597,7 +597,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         switch (self.attackType) {
             case 6: {     //charge
                 charge = 1;
-                sprite_index = scr_getSprite(self.playerChar,facing,"att");
+                sprite_index = scr_get_sprite(self.playerChar,facing,"att");
                 image_speed = 0;
                 break;
             }
@@ -617,12 +617,12 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
             case 12: {    //grab
                 grab = 1;
                 charge = 0;
-                sprite_index = scr_getSprite(self.playerChar,facing,"grab");
+                sprite_index = scr_get_sprite(self.playerChar,facing,"grab");
                 hurtbox = scr_grab();
                 break;
             }
             case 9: {   //block
-                sprite_index = scr_getSprite(self.playerChar,facing,"block");
+                sprite_index = scr_get_sprite(self.playerChar,facing,"block");
                 image_index = 0;
                 image_speed = 1;
                 block = 1;
@@ -633,7 +633,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
             break;
             }
             case 11: {
-                sprite_index = scr_getSprite(self.playerChar,"pink");
+                sprite_index = scr_get_sprite(self.playerChar,"pink");
                 scr_ability();
             break;
             }
@@ -688,6 +688,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         }
     }
 
+    //while being grabbed by something else
     if(hitbox.grabbed &amp;&amp; instance_exists(grabInstance) &amp;&amp; !place_meeting(grabInstance.x,grabInstance.y,obj_gen_enviro_hitbox)) {
         x = grabInstance.x;
         y = grabInstance.y;
@@ -702,7 +703,7 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         image_blend = c_blue;
     }
     
-    if(flying) {
+    if(flying) { //when sent backwards by throw
         if(abs(throwx) || abs(throwy)) {
             if(!place_meeting(x+throwx,y+throwy,obj_gen_enviro_hitbox)) {
                 x += throwx;

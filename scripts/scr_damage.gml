@@ -1,4 +1,6 @@
-//this script is run by the defending player's hitbox
+//run by defending player when hit
+//objs: fist
+
 if(isLocal) {
     addmeter = 0;
     if(!player.hurt) {
@@ -20,7 +22,7 @@ if(isLocal) {
                     scr_blocked();
                 }
                 with other {
-                    scr_gotBlocked();
+                    scr_got_blocked();
                 }
             }
         }

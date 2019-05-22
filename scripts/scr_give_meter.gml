@@ -1,5 +1,6 @@
-//scr_giveMeter(player,amount)
+//scr_give_meter(player,amount)
 // player: 0 = host, 1 = client
+//objs: knife
 
 if(argument0) {
     tempvar = htme_globalGet("clientmeter") + argument1;

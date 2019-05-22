@@ -1,5 +1,5 @@
-//vectorAdd(len,dir)
-
+//vector_add(len,dir)
+//i literally dont think this script is currently in use
 if(!vectorlen) {
     vectorlen = argument0;
     vectordir = argument1;

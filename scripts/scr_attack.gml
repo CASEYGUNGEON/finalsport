@@ -1,3 +1,6 @@
+//called when performing an attack
+//objs: player
+
 var hurtbox;
 
 switch (self.playerChar) {

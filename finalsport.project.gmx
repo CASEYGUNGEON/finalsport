@@ -723,20 +723,20 @@
     <script>scripts\scr_char_number.gml</script>
     <script>scripts\scr_block.gml</script>
     <script>scripts\scr_ability.gml</script>
-    <script>scripts\scr_gotBlocked.gml</script>
+    <script>scripts\scr_got_blocked.gml</script>
     <script>scripts\scr_damage.gml</script>
-    <script>scripts\scr_addDialogue.gml</script>
-    <script>scripts\scr_createDialogue.gml</script>
-    <script>scripts\scr_destroyDialogue.gml</script>
+    <script>scripts\scr_add_dialogue.gml</script>
+    <script>scripts\scr_create_dialogue.gml</script>
+    <script>scripts\scr_destroy_dialogue.gml</script>
     <script>scripts\scr_fadeout.gml</script>
     <script>scripts\place_meeting_other.gml</script>
     <script>scripts\scr_blocked.gml</script>
     <script>scripts\scr_grab.gml</script>
     <script>scripts\scr_thrown.gml</script>
-    <script>scripts\scr_giveMeter.gml</script>
-    <script>scripts\scr_vectorAdd.gml</script>
+    <script>scripts\scr_give_meter.gml</script>
+    <script>scripts\scr_vector_add.gml</script>
     <script>scripts\scr_avoid.gml</script>
-    <script>scripts\scr_getSprite.gml</script>
+    <script>scripts\scr_get_sprite.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\font0</font>
@@ -817,9 +817,8 @@
       <object>objects\obj_spawn1</object>
       <object>objects\obj_dead</object>
       <object>objects\obj_spawn2</object>
-      <object>objects\obj_player_offline</object>
       <objects name="hurtboxes">
-        <object>objects\obj_genHurtbox</object>
+        <object>objects\obj_gen_hurtbox</object>
         <object>objects\obj_block</object>
         <object>objects\obj_fist</object>
         <object>objects\obj_grab</object>

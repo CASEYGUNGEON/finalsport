@@ -1,3 +1,6 @@
+//initiates character special ability
+//objs: player
+
 attack = 1;
 alarm[1] = 29;
 

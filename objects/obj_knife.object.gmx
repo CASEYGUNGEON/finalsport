@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>obj_genHurtbox</parentName>
+  <parentName>obj_gen_hurtbox</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -127,9 +127,9 @@ alarm[1] = room_speed / 4;
         with(player) {
             if(!htme_isLocal()) {
                 if(!global.networkJoin) {
-                    scr_giveMeter(1,20);
+                    scr_give_meter(1,20);
                 } else {
-                    scr_giveMeter(0,20);
+                    scr_give_meter(0,20);
                 }
             }
         }
