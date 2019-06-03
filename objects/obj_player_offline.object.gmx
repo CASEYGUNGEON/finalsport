@@ -331,12 +331,17 @@ image_alpha = 1;
 
 if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
 
-
-    if(grab &amp;&amp; place_meeting_other(caughtID,x+lengthdir_x(hurtbox.disjoint,dir),y+lengthdir_y(hurtbox.disjoint,dir),obj_gen_enviro_hitbox)) {
-        dir = lastdir;
+    //determine direction to point player sprite towards
+    
+    if(global.gameFreeze &amp;&amp; global.freezePointX != -1 &amp;&amp; global.freezePointY != -1)
+    {
+        dir = point_direction(x,y,global.freezePointX,global.freezePointY);
     }
     
-    //point towards cursor
+    if(grab &amp;&amp; place_meeting_other(caughtID,x+lengthdir_x(hurtbox.disjoint,dir),y+lengthdir_y(hurtbox.disjoint,dir),obj_gen_enviro_hitbox))
+    {
+        dir = lastdir;
+    }
     
     if(!attack) {
         if(self.dir &gt; 68 &amp;&amp; self.dir &lt;= 112) {
@@ -357,6 +362,8 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
             facing = "upright";
         }
     }
+    
+    
     
     //movement
     
@@ -396,6 +403,11 @@ if(!hurt &amp;&amp; !hitbox.grabbed &amp;&amp; !stunned &amp;&amp; !flying) {
         thrown = 0;
     }
     
+    if(global.gameFreeze)
+    {
+        stepx = 0;
+        stepy = 0;
+    }
     
     movex += stepx;
     movey += stepy;

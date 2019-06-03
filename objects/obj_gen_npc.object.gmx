@@ -58,7 +58,9 @@ promptSprite = 0;
 
 if(playerIsNear &amp;&amp; !global.gameFreeze &amp;&amp; keyboard_check_released(global.interactKey))
 {
-    alarm[0] = 1; 
+    alarm[0] = 1;
+    global.freezePointX = x;
+    global.freezePointY = y;
 }
 </string>
           </argument>

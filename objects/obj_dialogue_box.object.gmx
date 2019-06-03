@@ -66,6 +66,8 @@ image_yscale = 0;
 
 global.dialogueBox = noone;
 global.gameFreeze = 0;
+global.freezePointX = -1;
+global.freezePointY = -1;
 </string>
           </argument>
         </arguments>

@@ -45,6 +45,8 @@ global.gameFreeze = 0;
 global.dialogueBox = noone;
 global.inCombatArea = false;
 global.SPLifeCount = 3;
+global.freezePointX = -1;
+global.freezePointY = -1;
 </string>
           </argument>
         </arguments>
