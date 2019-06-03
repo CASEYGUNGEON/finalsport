@@ -742,7 +742,6 @@
     <font>fonts\font0</font>
   </fonts>
   <objects name="objects">
-    <object>objects\obj_dialogue_box</object>
     <objects name="htme_demo">
       <objects name="menu">
         <object>objects\htme_obj_menu</object>
@@ -754,8 +753,68 @@
         <object>objects\htme_obj_door</object>
       </objects>
     </objects>
-    <object>objects\obj_dual_instance</object>
+    <objects name="player">
+      <object>objects\obj_player</object>
+      <object>objects\obj_player_offline</object>
+      <object>objects\obj_spawn1</object>
+      <object>objects\obj_dead</object>
+      <object>objects\obj_spawn2</object>
+      <objects name="hurtboxes">
+        <object>objects\obj_gen_hurtbox</object>
+        <object>objects\obj_block</object>
+        <object>objects\obj_fist</object>
+        <object>objects\obj_grab</object>
+        <object>objects\obj_knife</object>
+      </objects>
+      <object>objects\obj_gen_hitbox</object>
+      <object>objects\obj_rail_hitbox</object>
+    </objects>
+    <objects name="environment">
+      <object>objects\obj_npc</object>
+      <objects name="generic">
+        <object>objects\obj_enviro</object>
+        <object>objects\obj_gen_enviro_hitbox</object>
+        <object>objects\obj_box</object>
+        <object>objects\obj_box_hitbox</object>
+      </objects>
+      <objects name="pipedreams">
+        <object>objects\obj_pipewall_antibox</object>
+        <object>objects\obj_pipewall</object>
+        <object>objects\obj_top_pipes</object>
+        <object>objects\obj_pipewall_hitbox</object>
+      </objects>
+    </objects>
+    <objects name="HUD">
+      <object>objects\obj_readygo</object>
+      <object>objects\obj_ender</object>
+      <object>objects\obj_charhud</object>
+      <object>objects\obj_dialogue_box</object>
+    </objects>
+    <objects name="menu">
+      <objects name="main">
+        <object>objects\obj_intro</object>
+        <object>objects\obj_logo</object>
+        <object>objects\obj_play</object>
+        <object>objects\obj_versus</object>
+        <object>objects\obj_story</object>
+        <object>objects\obj_quit</object>
+        <object>objects\obj_host</object>
+        <object>objects\obj_join</object>
+      </objects>
+      <objects name="charselect">
+        <object>objects\obj_charselect</object>
+        <object>objects\obj_charpanel</object>
+        <object>objects\obj_rock</object>
+      </objects>
+      <objects name="endscreen">
+        <object>objects\obj_end_select</object>
+        <object>objects\obj_ranking</object>
+      </objects>
+      <object>objects\obj_fade</object>
+      <object>objects\obj_stageselect</object>
+    </objects>
     <objects name="Gmnet">
+      <object>objects\obj_dual_instance</object>
       <objects name="Lobby">
         <object>objects\obj_Lobby_button_parent</object>
         <object>objects\obj_Lobby_button_1</object>
@@ -812,75 +871,22 @@
         <object>objects\obj_steam</object>
       </objects>
     </objects>
-    <objects name="player">
-      <object>objects\obj_player</object>
-      <object>objects\obj_player_offline</object>
-      <object>objects\obj_spawn1</object>
-      <object>objects\obj_dead</object>
-      <object>objects\obj_spawn2</object>
-      <objects name="hurtboxes">
-        <object>objects\obj_gen_hurtbox</object>
-        <object>objects\obj_block</object>
-        <object>objects\obj_fist</object>
-        <object>objects\obj_grab</object>
-        <object>objects\obj_knife</object>
-      </objects>
-      <object>objects\obj_gen_hitbox</object>
-      <object>objects\obj_rail_hitbox</object>
-    </objects>
-    <objects name="environment">
-      <objects name="generic">
-        <object>objects\obj_enviro</object>
-        <object>objects\obj_gen_enviro_hitbox</object>
-        <object>objects\obj_box</object>
-        <object>objects\obj_box_hitbox</object>
-      </objects>
-      <objects name="pipedreams">
-        <object>objects\obj_pipewall_antibox</object>
-        <object>objects\obj_pipewall</object>
-        <object>objects\obj_top_pipes</object>
-        <object>objects\obj_pipewall_hitbox</object>
-      </objects>
-    </objects>
-    <object>objects\obj_readygo</object>
-    <object>objects\obj_charhud</object>
-    <object>objects\obj_ender</object>
-    <objects name="menu">
-      <objects name="main">
-        <object>objects\obj_intro</object>
-        <object>objects\obj_logo</object>
-        <object>objects\obj_play</object>
-        <object>objects\obj_versus</object>
-        <object>objects\obj_story</object>
-        <object>objects\obj_quit</object>
-        <object>objects\obj_host</object>
-        <object>objects\obj_join</object>
-      </objects>
-      <objects name="charselect">
-        <object>objects\obj_charselect</object>
-        <object>objects\obj_charpanel</object>
-        <object>objects\obj_rock</object>
-      </objects>
-      <objects name="endscreen">
-        <object>objects\obj_end_select</object>
-        <object>objects\obj_ranking</object>
-      </objects>
-      <object>objects\obj_fade</object>
-      <object>objects\obj_stageselect</object>
-    </objects>
     <objects name="cameratesting">
       <object>objects\obj_camera</object>
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_title</room>
-    <room>rooms\rm_intro</room>
+    <rooms name="menus">
+      <room>rooms\rm_title</room>
+      <room>rooms\rm_intro</room>
+      <room>rooms\rm_charselect</room>
+      <room>rooms\rm_stageselect</room>
+      <room>rooms\rm_matchEnd</room>
+    </rooms>
+    <room>rooms\rm_hub_test</room>
     <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_storyroom1</room>
     <room>rooms\rm_game</room>
-    <room>rooms\rm_charselect</room>
-    <room>rooms\rm_matchEnd</room>
-    <room>rooms\rm_stageselect</room>
     <room>rooms\rm_level1</room>
     <room>rooms\rm_join</room>
     <rooms name="htme_demo">

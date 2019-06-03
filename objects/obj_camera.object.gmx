@@ -27,8 +27,18 @@
             <kind>1</kind>
             <string>shakelen = 5;
 
-x = obj_player.x;
-y = obj_player.y;
+if(instance_exists(obj_player))
+{
+    player = obj_player.id;
+}
+else
+{
+    player = obj_player_offline.id;
+}
+
+
+x = player.x;
+y = player.y;
 
 view_xview = -(view_wview/2) + x;
 view_yview = -(view_hview/2) + y;
@@ -59,11 +69,11 @@ prevshakedir = -1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(!obj_player.alarm[3] &amp;&amp; !global.gameFreeze) {
+            <string>if(!player.alarm[3] &amp;&amp; !global.gameFreeze) {
     var xTo,yTo;
     move_towards_point(mouse_x,mouse_y,0);
-    xTo = obj_player.x + lengthdir_x(min(16,distance_to_point(mouse_x,mouse_y)),direction);
-    yTo = obj_player.y + lengthdir_y(min(16,distance_to_point(mouse_x,mouse_y)),direction);
+    xTo = player.x + lengthdir_x(min(16,distance_to_point(mouse_x,mouse_y)),direction);
+    yTo = player.y + lengthdir_y(min(16,distance_to_point(mouse_x,mouse_y)),direction);
     
     x += (xTo-x)/20;
     y += (yTo-y)/20;
@@ -93,8 +103,8 @@ if(shake) { //shake is started by scr_damage
     if(!shake) {
         prevshakedir = -1;
         shakedir = -1;
-        x = obj_player.x;
-        y = obj_player.y;
+        x = player.x;
+        y = player.y;
     }
     view_xview = -(view_wview/2) + x;
     view_yview = -(view_hview/2) + y;

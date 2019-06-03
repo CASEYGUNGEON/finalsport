@@ -128,7 +128,7 @@ if(x != stop) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>room_goto(rm_storyroom1);
+            <string>room_goto(rm_hub_test);
 </string>
           </argument>
         </arguments>
