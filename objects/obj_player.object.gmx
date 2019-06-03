@@ -69,6 +69,7 @@ if(!global.networkJoin) {
 hitbox = instance_create(x,y,obj_rail_hitbox);
 hitbox.player = id;
 hitbox.isLocal = htme_isLocal();
+hitbox.isOnline = true;
 
 moveSpeed = maxMoveSpeed;
 image_speed = 0;

@@ -41,6 +41,8 @@ global.player2Name = "player";
 global.hudcreated = 0;
 global.gameFreeze = 0;
 global.dialogueBox = noone;
+global.inCombatArea = false;
+global.SPLifeCount = 3;
 </string>
           </argument>
         </arguments>
