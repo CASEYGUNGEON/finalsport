@@ -91,6 +91,8 @@ global.gameFreeze = 0;
             <string>x = view_wview / 2;
 y = view_hview - view_hview / 12 - view_hview / 16
 
+draw_self();
+
 if(scaled &lt; 20)
 {
     image_xscale += xscaleTarget / 20;

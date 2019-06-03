@@ -29,7 +29,9 @@
 
 //randomize();
 
-global.testobjectalpha = 0;
+global.interactKey = ord('E');
+
+global.testobjectalpha = 0.6;
 
 global.playerChar = "none";
 global.networkJoin = 0;

@@ -200,6 +200,7 @@
     </sprites>
     <sprites name="Lobby">
       <sprite>sprites\spr_TextFitBox</sprite>
+      <sprite>sprites\spr_interact_prompt</sprite>
     </sprites>
     <sprites name="environment">
       <sprite>sprites\spr_box</sprite>
@@ -770,8 +771,10 @@
       <object>objects\obj_gen_hitbox</object>
       <object>objects\obj_rail_hitbox</object>
     </objects>
-    <objects name="environment">
+    <objects name="NPCs">
       <object>objects\obj_npc</object>
+    </objects>
+    <objects name="environment">
       <objects name="generic">
         <object>objects\obj_enviro</object>
         <object>objects\obj_gen_enviro_hitbox</object>
