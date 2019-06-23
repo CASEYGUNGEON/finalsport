@@ -5,7 +5,7 @@ var hurtbox;
 
 switch (self.playerChar) {
     case "rail": {
-        hurtbox = instance_create(x,y,obj_fist);
+        hurtbox = instance_create(x,y,obj_fist_offline);
         hurtbox.sprite_index = hurtbox_rail;
         hurtbox.image_angle = (floor((dir + 22) / 45) + 2) * 45;
         hurtbox.image_xscale = scale;

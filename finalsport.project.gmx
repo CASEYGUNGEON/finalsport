@@ -721,6 +721,7 @@
       </scripts>
     </scripts>
     <script>scripts\scr_attack.gml</script>
+    <script>scripts\scr_damage_offline.gml</script>
     <script>scripts\scr_char_number.gml</script>
     <script>scripts\scr_block.gml</script>
     <script>scripts\scr_ability.gml</script>
@@ -744,6 +745,11 @@
   </fonts>
   <objects name="objects">
     <object>objects\obj_initializer</object>
+    <objects name="enemies">
+      <object>objects\obj_bull_hitbox</object>
+      <object>objects\obj_bull</object>
+      <object>objects\obj_gen_enemy</object>
+    </objects>
     <objects name="htme_demo">
       <objects name="menu">
         <object>objects\htme_obj_menu</object>
@@ -765,6 +771,7 @@
         <object>objects\obj_gen_hurtbox</object>
         <object>objects\obj_block</object>
         <object>objects\obj_fist</object>
+        <object>objects\obj_fist_offline</object>
         <object>objects\obj_grab</object>
         <object>objects\obj_knife</object>
       </objects>
@@ -881,6 +888,7 @@
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_storyroom1</room>
     <room>rooms\rm_hub_test</room>
     <rooms name="menus">
       <room>rooms\rm_title</room>
@@ -890,7 +898,6 @@
       <room>rooms\rm_matchEnd</room>
     </rooms>
     <room>rooms\rm_pipedreams</room>
-    <room>rooms\rm_storyroom1</room>
     <room>rooms\rm_game</room>
     <room>rooms\rm_level1</room>
     <room>rooms\rm_join</room>
