@@ -41,8 +41,8 @@ self.playerChar = "rail";
 x = obj_spawn1.x;
 y = obj_spawn1.y;
 
-hitbox = instance_create(x,y,obj_rail_hitbox);
-hitbox.player = id;
+hitbox = instance_create(x,y,obj_player_hitbox);
+hitbox.attachedto = id;
 hitbox.isLocal = true;
 hitbox.isOnline = false;
 
@@ -235,6 +235,10 @@ image_alpha = 1;
             <kind>1</kind>
             <string>if(!global.gameFreeze) 
 {
+    if(keyboard_check(ord('R')))
+    {
+        room_restart();
+    }
     self.pressed_up = keyboard_check(ord('W'));
     self.pressed_down = keyboard_check(ord('S'));
     self.pressed_left = keyboard_check(ord('A'));

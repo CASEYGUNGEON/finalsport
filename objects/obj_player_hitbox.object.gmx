@@ -51,8 +51,8 @@ image_alpha = global.testobjectalpha / 2;
           <argument>
             <kind>1</kind>
             <string>grabbed = 0;
-player.thrown = 1;
-player.throwdir = throwdir;
+attachedto.thrown = 1;
+attachedto.throwdir = throwdir;
 </string>
           </argument>
         </arguments>
@@ -75,11 +75,11 @@ player.throwdir = throwdir;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>x = player.x;
-y = player.y;
+            <string>x = attachedto.x;
+y = attachedto.y;
 if(instance_exists(grabInstance))
 {
-    player.grabInstance = grabInstance;
+    attachedto.grabInstance = grabInstance;
 }
 </string>
           </argument>

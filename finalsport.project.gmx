@@ -439,7 +439,9 @@
     <background>background\news_screen_3</background>
     <background>background\news_screen_4</background>
   </backgrounds>
-  <paths name="paths"/>
+  <paths name="paths">
+    <path>paths\path0</path>
+  </paths>
   <scripts name="scripts">
     <scripts name="Gmnet">
       <scripts name="Lobby">
@@ -776,7 +778,7 @@
         <object>objects\obj_knife</object>
       </objects>
       <object>objects\obj_gen_hitbox</object>
-      <object>objects\obj_rail_hitbox</object>
+      <object>objects\obj_player_hitbox</object>
     </objects>
     <objects name="NPCs">
       <object>objects\obj_test_npc</object>
@@ -889,6 +891,7 @@
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_storyroom1</room>
+    <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_hub_test</room>
     <rooms name="menus">
       <room>rooms\rm_title</room>
@@ -897,7 +900,6 @@
       <room>rooms\rm_stageselect</room>
       <room>rooms\rm_matchEnd</room>
     </rooms>
-    <room>rooms\rm_pipedreams</room>
     <room>rooms\rm_game</room>
     <room>rooms\rm_level1</room>
     <room>rooms\rm_join</room>

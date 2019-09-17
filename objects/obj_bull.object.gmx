@@ -33,6 +33,13 @@ accel = .5;
 movex = 0;
 movey = 0;
 image_speed = 0;
+path_start(path0,maxMoveSpeed*(2/3),path_action_continue,false);
+sawPlayer = 0;
+hurt = 0;
+dir = point_direction(x,y,path_get_x(path_index,path_position+.05),path_get_y(path_index,path_position+.05));
+pathstartx = x - path_get_x(path_index,0);
+pathstarty = y - path_get_y(path_index,0);
+returnPath = -1;
 </string>
           </argument>
         </arguments>
@@ -57,54 +64,94 @@ image_speed = 0;
             <kind>1</kind>
             <string>if(!global.gameFreeze)
 {
-    dir = point_direction(x,y,obj_player_offline.x,obj_player_offline.y);
-    
-    if(self.dir &gt; 68 &amp;&amp; self.dir &lt;= 112)
+    if(!hurt)
+    {
+        if(path_index != -1)
         {
-            facing = "up";
-        }
-        else if(self.dir &gt; 113 &amp;&amp; self.dir &lt;= 157)
-        {
-            facing = "upleft";
-        }
-        else if(self.dir &gt; 158 &amp;&amp; self.dir &lt;= 202)
-        {
-            facing = "left";
-        }
-        else if(self.dir &gt; 203 &amp;&amp; self.dir &lt;= 247)
-        {
-            facing = "downleft";
-        }
-        else if(self.dir &gt; 248 &amp;&amp; self.dir &lt;= 292)
-        {
-            facing = "down";
-        }
-        else if(self.dir &gt; 293 &amp;&amp; self.dir &lt;= 337)
-        {
-            facing = "downright";
-        }
-        else if(self.dir &gt; 338 || self.dir &lt;= 21)
-        {
-            facing = "right";
-        }
-        else if(self.dir &gt; 22 &amp;&amp; self.dir &lt;= 67)
-        {
-            facing = "upright";
+            dir = point_direction(x,y,pathstartx+path_get_x(path_index,path_position+.05),pathstarty+path_get_y(path_index,path_position+.05));
         }
         
-        sprite_index = scr_get_sprite("player",facing);
-        
-        movex += lengthdir_x(accel,dir);
-        movey += lengthdir_y(accel,dir);
-        movespeed = sqrt(abs((movex^2 + movey^2)));
-        if(movespeed &gt; maxMoveSpeed)
+        if(instance_exists(obj_player_offline))
         {
-            moveratio = movespeed / maxMoveSpeed;
-            movex /= moveratio;
-            movey /= moveratio;
+            dirToPlayer = point_direction(x,y,obj_player_offline.x,obj_player_offline.y);
+            if(!sawPlayer &amp;&amp; angle_difference(dir,dirToPlayer) &lt; 45 &amp;&amp; path_index == path0 &amp;&amp; point_distance(x,y,obj_player_offline.x,obj_player_offline.y) &lt; 360)
+            {
+                sawPlayer = 1;
+                path_end();
+            }
+            if(sawPlayer)
+            {
+                dir = dirToPlayer;
+            }
         }
-        x += movex;
-        y += movey;
+        if(self.dir &gt; 68 &amp;&amp; self.dir &lt;= 112)
+            {
+                facing = "up";
+            }
+            else if(self.dir &gt; 113 &amp;&amp; self.dir &lt;= 157)
+            {
+                facing = "upleft";
+            }
+            else if(self.dir &gt; 158 &amp;&amp; self.dir &lt;= 202)
+            {
+                facing = "left";
+            }
+            else if(self.dir &gt; 203 &amp;&amp; self.dir &lt;= 247)
+            {
+                facing = "downleft";
+            }
+            else if(self.dir &gt; 248 &amp;&amp; self.dir &lt;= 292)
+            {
+                facing = "down";
+            }
+            else if(self.dir &gt; 293 &amp;&amp; self.dir &lt;= 337)
+            {
+                facing = "downright";
+            }
+            else if(self.dir &gt; 338 || self.dir &lt;= 21)
+            {
+                facing = "right";
+            }
+            else if(self.dir &gt; 22 &amp;&amp; self.dir &lt;= 67)
+            {
+                facing = "upright";
+            }
+            
+            sprite_index = scr_get_sprite("player",facing);
+            
+            if(sawPlayer == 1)
+            {
+                movex += lengthdir_x(accel,dir);
+                movey += lengthdir_y(accel,dir);
+                movespeed = sqrt(abs((movex^2 + movey^2)));
+                if(movespeed &gt; maxMoveSpeed)
+                {
+                    moveratio = movespeed / maxMoveSpeed;
+                    movex /= moveratio;
+                    movey /= moveratio;
+                }
+            }
+            
+            x += movex;
+            y += movey;
+            
+            collisionID = instance_place(x,y,obj_player_hitbox);
+            if(collisionID != noone &amp;&amp; collisionID.attachedto.hurt = 0)
+            {
+                with(collisionID)
+                {
+                    scr_damage_offline();
+                }
+                sawPlayer = 0;
+                movex = 0;
+                movey = 0;
+            }
+    }
+    else
+    {
+        instance_destroy(hitbox);
+        instance_destroy();
+    }
 }
 </string>
           </argument>
